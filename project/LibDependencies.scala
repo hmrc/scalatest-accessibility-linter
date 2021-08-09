@@ -18,7 +18,8 @@ import sbt._
 
 object LibDependencies {
   val all: Seq[ModuleID] = Seq(
-    "org.scalatest"       %% "scalatest"    % "3.2.9"   % Test,
-    "com.vladsch.flexmark" % "flexmark-all" % "0.35.10" % Test
+    "com.typesafe.play" %% "play-json" % "2.8.1",
+    "org.pegdown"        % "pegdown"   % "1.6.0",
+    "org.scalatest"     %% "scalatest" % "3.0.9"
   )
 }
