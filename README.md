@@ -1,10 +1,10 @@
-
 # scalatest-accessibility-linter
 
 This is a Scala test library providing a custom matcher for performing automated accessibility testing. It is a 
-dependency of [sbt-accessibility-linter](https://www.github.com/hmrc/sbt-accessibility-linter).
+dependency of the [sbt-accessibility-linter](https://www.github.com/hmrc/sbt-accessibility-linter)  plugin.
 
-For further details, refer to the README in the above repository.
+Please do not add this library as a dependency for your project. Instead, refer to the README in the 
+`sbt-accessibility-linter` project for details of adding the plugin to your project.
 
 ## Testing
 
