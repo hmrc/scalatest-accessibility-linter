@@ -18,8 +18,14 @@ import sbt._
 
 object LibDependencies {
   val all: Seq[ModuleID] = Seq(
-    "com.typesafe.play" %% "play-json" % "2.8.1",
-    "org.pegdown"        % "pegdown"   % "1.6.0",
-    "org.scalatest"     %% "scalatest" % "3.0.9"
+    "com.typesafe.play"      %% "play-json"       % "2.8.1",
+    "org.pegdown"             % "pegdown"         % "1.6.0",
+    "org.scalatest"          %% "scalatest"       % "3.2.9",
+    "com.typesafe"            % "config"          % "1.4.1",
+    "com.beachape"           %% "enumeratum"      % "1.7.0",
+    "com.beachape"           %% "enumeratum-play" % "1.7.0",
+    "nu.validator"            % "validator"       % "20.7.2",
+    "com.vladsch.flexmark"    % "flexmark-all"    % "0.35.10" % "it,test",
+    "com.softwaremill.diffx" %% "diffx-scalatest" % "0.5.6"   % "it,test"
   )
 }
