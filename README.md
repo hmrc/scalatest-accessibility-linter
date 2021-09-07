@@ -8,7 +8,7 @@ Please do not add this library as a dependency for your project. Instead, refer 
 
 ## Testing
 
-To run the unit tests, run the command `sbt test`.
+To run the unit tests, run the command `sbt test it:test`.
 
 ### License
 
