@@ -22,7 +22,7 @@ import scala.collection.immutable.IndexedSeq
 
 sealed trait AccessibilityLinter extends EnumEntry
 
-object AccessibilityLinter extends Enum[AccessibilityLinter] with PlayJsonEnum[AccessibilityLinter] {
+object AccessibilityLinter extends Enum[AccessibilityLinter] {
   val values: IndexedSeq[AccessibilityLinter] = findValues
 
   case object axe extends AccessibilityLinter
