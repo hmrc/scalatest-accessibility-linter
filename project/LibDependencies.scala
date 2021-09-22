@@ -24,6 +24,7 @@ object LibDependencies {
     "com.typesafe"            % "config"          % "1.4.1",
     "com.beachape"           %% "enumeratum"      % "1.7.0",
     "nu.validator"            % "validator"       % "20.7.2",
+    "com.typesafe.play"      %% "twirl-api"       % "1.5.1"   % "test",
     "com.vladsch.flexmark"    % "flexmark-all"    % "0.35.10" % "it,test",
     "com.softwaremill.diffx" %% "diffx-scalatest" % "0.5.6"   % "it,test"
   )

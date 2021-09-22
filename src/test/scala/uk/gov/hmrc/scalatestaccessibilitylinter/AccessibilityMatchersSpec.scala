@@ -21,6 +21,7 @@ import org.scalatest.matchers.MatchResult
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.featurespec.AnyFeatureSpec
 import org.scalatest.{Informer, Informing}
+import play.twirl.api.Html
 import uk.gov.hmrc.scalatestaccessibilitylinter.domain._
 
 import scala.collection.mutable.ListBuffer
@@ -155,6 +156,25 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
     }
   }
 
+  Feature("tests can work with wrapped html") {
+    Scenario("play framework wrapped html") {
+      new FakeTestSuite with AccessibilityMatchers {
+        val linterReceived = new ListBuffer[String]
+
+        override val accessibilityLinters =
+          Seq(new AccessibilityLinter.Service(AccessibilityLinter.axe, KnownIssues.empty) {
+            override protected def findViolations(html: String): List[AccessibilityViolation] = {
+              linterReceived.append(html)
+              Nil
+            }
+          })
+
+        passAccessibilityChecks("<from-string>")
+        passAccessibilityChecks(Html("<from-html>"))
+        linterReceived shouldBe List("<from-string>", "<from-html>")
+      }
+    }
+  }
 }
 
 trait FakeTestSuite extends Informing { this: AccessibilityMatchers =>
@@ -163,7 +183,7 @@ trait FakeTestSuite extends Informing { this: AccessibilityMatchers =>
 
   def infoMessages: Seq[String]         = infoEvents.map(_._1).toList
   def infoPayloads: Seq[Option[Any]]    = infoEvents.map(_._2).toList
-  private var infoEvents                = new ListBuffer[(String, Option[Any])]()
+  private val infoEvents                = new ListBuffer[(String, Option[Any])]()
   override protected def info: Informer = new Informer {
     override def apply(message: String, payload: Option[Any])(implicit pos: Position): Unit =
       infoEvents += message -> payload

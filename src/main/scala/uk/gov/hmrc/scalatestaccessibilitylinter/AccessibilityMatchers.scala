@@ -23,9 +23,13 @@ import uk.gov.hmrc.scalatestaccessibilitylinter.config.{defaultAxeLinter, defaul
 import uk.gov.hmrc.scalatestaccessibilitylinter.domain._
 
 import scala.collection.immutable.ListMap
+import scala.language.{implicitConversions, reflectiveCalls}
 
 trait AccessibilityMatchers { this: Informing =>
   protected val accessibilityLinters: Seq[AccessibilityLinter.Service] = Seq(defaultAxeLinter, defaultVnuLinter)
+
+  private type PlayLikeWrappedHtml = { def body: String }
+  implicit def playLikeHtmlToString(html: PlayLikeWrappedHtml): String = html.body
 
   class PassAccessibilityChecksMatcher(accessibilityLinters: Seq[AccessibilityLinter.Service]) extends Matcher[String] {
     def apply(html: String): MatchResult = {
