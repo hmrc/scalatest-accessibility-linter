@@ -48,10 +48,11 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
 
   Feature("can load known issues successfully from config") {
     Scenario("uk/gov/hmrc/scalatestaccessibilitylinter/accessibility-linter.conf") {
-      knownIssues should matchTo(
+      knownIssues.knownIssues.length               should be(26)
+      KnownIssues(knownIssues.knownIssues.take(2)) should matchTo(
         KnownIssues(
           KnownIssue(
-            axe,
+            vnu,
             descriptionRegex = """Start tag seen without seeing a doctype first\. Expected “<!DOCTYPE html>”""".r,
             snippetRegex = ".*".r,
             ActionsWhenMatched(
@@ -66,7 +67,6 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
               """Attribute “readonly” is only allowed when the input type is “date”, “datetime-local”, “email”, “month”, “number”, “password”, “search”, “tel”, “text”, “time”, “url”, or “week”\.""".r,
             snippetRegex = """.*<input.*(type="hidden".*readonly=""|readonly="".*type="hidden"){1}.*>""".r,
             ActionsWhenMatched(
-              markAsKnownIssue = true,
               addFurtherInformation = Some(
                 "While this is a valid finding, readonly attributes on input tags of type 'hidden' have no effect on the page usability or accessibility."
               ),
@@ -75,6 +75,34 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           )
         )
       )
+    }
+  }
+
+  Feature("filtering known issues with real config") {
+    Scenario("html containing skip link with arbitrary attributes outside a landmark section") {
+      val rawViolation = AccessibilityViolation(
+        axe,
+        code = "deprecated",
+        severity = "serious",
+        alertLevel = "ERROR",
+        description = "Fix any of the following:\nSome page content is not contained by landmarks",
+        snippet =
+          "<a href=\"#main-content\" class=\"govuk-skip-link\" some-arbitrary-attribute=\"whatever\">Skip to main content</a>",
+        helpUrl = "https://example.com",
+        knownIssue = false,
+        furtherInformation = None
+      )
+
+      val filteredViolation = rawViolation.copy(
+        knownIssue = true,
+        furtherInformation = Some(
+          "This is caused by the banner from tracking-consent-frontend." +
+            " skip-link is normally excluded from this rule but Axe algorithm for detection does not work if there is content above skip-link." +
+            " GDS advice is to add the cookie banner above the skip-link. See PLATUI-1370."
+        )
+      )
+
+      knownIssues.filterAndUpdate(rawViolation) should matchTo(List(filteredViolation))
     }
   }
 
