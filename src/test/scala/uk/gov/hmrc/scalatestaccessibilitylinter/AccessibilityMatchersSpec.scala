@@ -73,7 +73,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         passAccessibilityChecksGivenAnyHtml shouldBe checksFailed
         infoMessages                        shouldBe List(
           """axe found 1 potential problem(s):""",
-          """{"level":"ERROR","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
+          """- this comes from the description of the alert"""
         )
       }
     }
@@ -88,7 +88,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         infoMessages                        shouldBe List(
           """axe found no problems.""",
           """vnu found 1 potential problem(s):""",
-          """{"level":"ERROR","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
+          """- this comes from the description of the alert"""
         )
       }
     }
@@ -103,7 +103,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         infoMessages                        shouldBe List(
           """axe found no errors.""",
           """vnu found 1 potential problem(s):""",
-          """{"level":"ERROR","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
+          """- this comes from the description of the alert"""
         )
       }
     }
@@ -117,7 +117,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         passAccessibilityChecksGivenAnyHtml shouldBe checksFailed
         infoMessages                        shouldBe List(
           """axe found 1 potential problem(s):""",
-          """{"level":"ERROR","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}""",
+          """- this comes from the description of the alert""",
           """vnu found no errors."""
         )
       }
@@ -131,7 +131,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         passAccessibilityChecksGivenAnyHtml shouldBe checksFailed
         infoMessages                        shouldBe List(
           """axe found 1 potential problem(s):""",
-          """{"level":"ERROR","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
+          """- this comes from the description of the alert"""
         )
       }
     }
@@ -143,7 +143,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         passAccessibilityChecksGivenAnyHtml shouldBe checksFailed
         infoMessages                        shouldBe List(
           """axe found 1 potential problem(s):""",
-          """{"level":"ERROR","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
+          """- this comes from the description of the alert"""
         )
       }
     }
@@ -182,7 +182,7 @@ trait FakeTestSuite extends Informing { this: AccessibilityMatchers =>
     code = "deprecated",
     severity = "serious",
     alertLevel = "ERROR",
-    description = "this feature is no longer recommended",
+    description = "this comes from the description of the alert",
     snippet = "<marquee>",
     helpUrl = "https://example.com",
     knownIssue = false,
