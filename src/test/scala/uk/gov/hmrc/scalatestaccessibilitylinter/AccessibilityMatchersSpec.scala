@@ -73,7 +73,8 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         passAccessibilityChecksGivenAnyHtml shouldBe checksFailed
         infoMessages                        shouldBe List(
           """axe found 1 potential problem(s):""",
-          """- this comes from the description of the alert"""
+          """- this comes from the description of the alert""",
+          """  (#target)"""
         )
       }
     }
@@ -118,6 +119,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         infoMessages                        shouldBe List(
           """axe found 1 potential problem(s):""",
           """- this comes from the description of the alert""",
+          """  (#target)""",
           """vnu found no errors."""
         )
       }
@@ -131,7 +133,8 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         passAccessibilityChecksGivenAnyHtml shouldBe checksFailed
         infoMessages                        shouldBe List(
           """axe found 1 potential problem(s):""",
-          """- this comes from the description of the alert"""
+          """- this comes from the description of the alert""",
+          """  (#target)"""
         )
       }
     }
@@ -143,7 +146,8 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         passAccessibilityChecksGivenAnyHtml shouldBe checksFailed
         infoMessages                        shouldBe List(
           """axe found 1 potential problem(s):""",
-          """- this comes from the description of the alert"""
+          """- this comes from the description of the alert""",
+          """  (#target)"""
         )
       }
     }
@@ -184,6 +188,7 @@ trait FakeTestSuite extends Informing { this: AccessibilityMatchers =>
     alertLevel = "ERROR",
     description = "this comes from the description of the alert",
     snippet = "<marquee>",
+    target = "#target",
     helpUrl = "https://example.com",
     knownIssue = false,
     furtherInformation = None

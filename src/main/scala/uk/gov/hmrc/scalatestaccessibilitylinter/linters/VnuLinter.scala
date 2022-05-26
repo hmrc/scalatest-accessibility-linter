@@ -37,6 +37,7 @@ class VnuLinter(vnuProcess: String => String, knownIssues: KnownIssues)
       alertLevel = alertMapping(vnuAlert.severity),
       description = vnuAlert.message,
       snippet = vnuAlert.extract,
+      target = "N/A",
       helpUrl = "UNDEFINED",
       knownIssue = false,
       furtherInformation = None

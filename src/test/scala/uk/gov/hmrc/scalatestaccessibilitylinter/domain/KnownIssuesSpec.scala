@@ -41,6 +41,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
     alertLevel = "ERROR",
     description = "this feature is no longer recommended",
     snippet = "<marquee>",
+    target = "#target",
     helpUrl = "https://example.com",
     knownIssue = false,
     furtherInformation = None
@@ -88,6 +89,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
         description = "Fix any of the following:\nSome page content is not contained by landmarks",
         snippet =
           "<a href=\"#main-content\" class=\"govuk-skip-link\" some-arbitrary-attribute=\"whatever\">Skip to main content</a>",
+        target = "#target",
         helpUrl = "https://example.com",
         knownIssue = false,
         furtherInformation = None
@@ -143,6 +145,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           alertLevel = "ERROR",
           description = "first",
           snippet = "<marquee>",
+          target = "#target",
           helpUrl = "https://example.com",
           knownIssue = false,
           furtherInformation = None
@@ -176,6 +179,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           alertLevel = "ERROR",
           description = "first",
           snippet = "<marquee>",
+          target = "#target",
           helpUrl = "https://example.com",
           knownIssue = false,
           furtherInformation = None
@@ -187,6 +191,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           alertLevel = "ERROR",
           description = "second",
           snippet = "<marquee>",
+          target = "#target",
           helpUrl = "https://example.com",
           knownIssue = false,
           furtherInformation = None
@@ -198,6 +203,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           alertLevel = "ERROR",
           description = "third",
           snippet = "<marquee>",
+          target = "#target",
           helpUrl = "https://example.com",
           knownIssue = false,
           furtherInformation = None
@@ -210,6 +216,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           alertLevel = "ERROR",
           description = "second",
           snippet = "<marquee>",
+          target = "#target",
           helpUrl = "https://example.com",
           knownIssue = false,
           furtherInformation = None
@@ -239,6 +246,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           alertLevel = "ERROR",
           description = "first",
           snippet = "<marquee>",
+          target = "#target",
           helpUrl = "https://example.com",
           knownIssue = false,
           furtherInformation = None
@@ -251,6 +259,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           alertLevel = "WARNING",
           description = "first",
           snippet = "<marquee>",
+          target = "#target",
           helpUrl = "https://example.com",
           knownIssue = true,
           furtherInformation = Some("extra info")

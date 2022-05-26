@@ -54,7 +54,13 @@ trait AccessibilityMatchers { this: Informing =>
               case Nil    => info(s"$linter found no errors.", Some(report))
               case errors =>
                 info(s"$linter found ${errors.size} potential problem(s):", Some(report))
-                errors.foreach(violation => info(s"- ${violation.description}"))
+                errors.foreach { violation =>
+                  info(s"- ${violation.description}")
+                  linter match {
+                    case AccessibilityLinter.axe => info(s"  (${violation.target})")
+                    case _                       =>
+                  }
+                }
             }
         }
 

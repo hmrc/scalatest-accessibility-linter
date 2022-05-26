@@ -65,6 +65,7 @@ class VnuLinterSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "Start tag seen without seeing a doctype first. Expected “<!DOCTYPE html>”.",
             snippet = "\n<html lang=\"en\">\n<head",
+            target = "N/A",
             helpUrl = "UNDEFINED",
             knownIssue = false,
             furtherInformation = None
@@ -105,6 +106,7 @@ class VnuLinterSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "Start tag seen without seeing a doctype first. Expected “<!DOCTYPE html>”.",
             snippet = "\n<html lang=\"en\">\n<head",
+            target = "N/A",
             helpUrl = "UNDEFINED",
             knownIssue = false,
             furtherInformation = None

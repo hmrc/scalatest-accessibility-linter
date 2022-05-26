@@ -38,6 +38,7 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = true,
             furtherInformation = None
@@ -57,6 +58,7 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "WARNING",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -78,6 +80,7 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -105,6 +108,7 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = true,
             furtherInformation = None
@@ -120,6 +124,7 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = true,
             furtherInformation = None
@@ -139,6 +144,7 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -154,6 +160,7 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -173,6 +180,7 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "WARNING",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -188,6 +196,7 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "WARNING",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
