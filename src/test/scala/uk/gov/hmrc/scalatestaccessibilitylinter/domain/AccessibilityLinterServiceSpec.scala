@@ -56,6 +56,7 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -78,6 +79,7 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -94,6 +96,7 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "this feature is no longer recommended",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -129,6 +132,7 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "first",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -140,6 +144,7 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "second",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -151,6 +156,7 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "first",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -167,6 +173,7 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "WARNING",
             description = "first",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = true,
             furtherInformation = Some("extra info")
@@ -178,6 +185,7 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "ERROR",
             description = "second",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -189,6 +197,7 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             alertLevel = "WARNING",
             description = "first",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = true,
             furtherInformation = Some("extra info")

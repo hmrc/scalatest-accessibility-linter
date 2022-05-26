@@ -23,6 +23,7 @@ case class AccessibilityViolation(
   alertLevel: String,
   description: String,
   snippet: String,
+  target: String,
   helpUrl: String,
   knownIssue: Boolean,
   furtherInformation: Option[String]

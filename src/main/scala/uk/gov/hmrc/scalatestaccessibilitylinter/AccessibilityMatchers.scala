@@ -49,24 +49,20 @@ trait AccessibilityMatchers { this: Informing =>
           case report @ PassedAccessibilityChecks(linter)             =>
             info(s"$linter found no problems.", Some(report))
           case report @ FailedAccessibilityChecks(linter, violations) =>
-            info(s"$linter found ${violations.size} potential problem(s):", Some(report))
-
-            violations.foreach(violation => info(jsonLine(violation)))
+            // TODO talk to test leads about how we handle "alertLevel"
+            violations.filter(v => v.alertLevel == "ERROR" && !v.knownIssue) match {
+              case Nil    => info(s"$linter found no errors.", Some(report))
+              case errors =>
+                info(s"$linter found ${errors.size} potential problem(s):", Some(report))
+                errors.foreach { violation =>
+                  info(s"- ${violation.description}")
+                  linter match {
+                    case AccessibilityLinter.axe => info(s"  (${violation.target})")
+                    case _                       =>
+                  }
+                }
+            }
         }
-
-    private def jsonLine(v: AccessibilityViolation): String =
-      Json.stringify(
-        Json
-          .toJson(
-            ListMap(
-              "level"       -> (if (v.alertLevel == "ERROR" && v.knownIssue) "WARNING" else v.alertLevel),
-              "description" -> v.description,
-              "snippet"     -> v.snippet,
-              "helpUrl"     -> v.helpUrl,
-              "furtherInfo" -> v.furtherInformation.getOrElse("")
-            )
-          )
-      )
 
     private def accessibilityCheck(html: String): Seq[AccessibilityReport] =
       accessibilityLinters.map(_.check(html))

@@ -40,11 +40,15 @@ class AxeLinterSpec extends AnyFeatureSpec with Matchers {
         |  "helpUrl": "https://example.com",
         |  "id": "deprecated",
         |  "impact": "serious",
+        |  "description": "this comes from the description of the alert",
         |  "nodes": [
         |    {
         |      "failureSummary": "this feature is no longer recommended",
         |      "html": "<marquee>",
-        |      "impact": "serious"
+        |      "impact": "serious",
+        |      "target": [
+        |        "#target"
+        |      ]
         |    }
         |  ]
         |}
@@ -61,8 +65,9 @@ class AxeLinterSpec extends AnyFeatureSpec with Matchers {
             code = "deprecated",
             severity = "serious",
             alertLevel = "ERROR",
-            description = "this feature is no longer recommended",
+            description = "this comes from the description of the alert",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
@@ -78,12 +83,16 @@ class AxeLinterSpec extends AnyFeatureSpec with Matchers {
         |  "id": "deprecated",
         |  "unexpected": "data",
         |  "impact": "serious",
+        |  "description": "this comes from the description of the alert",
         |  "nodes": [
         |    {
         |      "failureSummary": "this feature is no longer recommended",
         |      "html": "<marquee>",
         |      "impact": "serious",
-        |      "moreUnexpectedData": 1
+        |      "moreUnexpectedData": 1,
+        |      "target": [
+        |        "#target"
+        |      ]
         |    }
         |  ]
         |}
@@ -100,8 +109,9 @@ class AxeLinterSpec extends AnyFeatureSpec with Matchers {
             code = "deprecated",
             severity = "serious",
             alertLevel = "ERROR",
-            description = "this feature is no longer recommended",
+            description = "this comes from the description of the alert",
             snippet = "<marquee>",
+            target = "#target",
             helpUrl = "https://example.com",
             knownIssue = false,
             furtherInformation = None
