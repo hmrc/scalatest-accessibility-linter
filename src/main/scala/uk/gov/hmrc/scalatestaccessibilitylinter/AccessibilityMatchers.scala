@@ -49,9 +49,12 @@ trait AccessibilityMatchers { this: Informing =>
           case report @ PassedAccessibilityChecks(linter)             =>
             info(s"$linter found no problems.", Some(report))
           case report @ FailedAccessibilityChecks(linter, violations) =>
-            info(s"$linter found ${violations.size} potential problem(s):", Some(report))
-
-            violations.foreach(violation => info(jsonLine(violation)))
+            violations.filter(v => v.alertLevel == "ERROR" && !v.knownIssue) match {
+              case Nil    => info(s"$linter found no errors.", Some(report))
+              case errors =>
+                info(s"$linter found ${errors.size} potential problem(s):", Some(report))
+                errors.foreach(violation => info(jsonLine(violation)))
+            }
         }
 
     private def jsonLine(v: AccessibilityViolation): String =
@@ -59,6 +62,7 @@ trait AccessibilityMatchers { this: Informing =>
         Json
           .toJson(
             ListMap(
+              // TODO talk to test leads about how we handle "alertLevel"
               "level"       -> (if (v.alertLevel == "ERROR" && v.knownIssue) "WARNING" else v.alertLevel),
               "description" -> v.description,
               "snippet"     -> v.snippet,

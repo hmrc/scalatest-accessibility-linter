@@ -49,8 +49,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         override val accessibilityLinters = Seq(fakeAxeLinter(knownAccessibilityViolation))
         passAccessibilityChecksGivenAnyHtml shouldBe checksPassed
         infoMessages                        shouldBe List(
-          """axe found 1 potential problem(s):""",
-          """{"level":"WARNING","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
+          """axe found no errors."""
         )
       }
     }
@@ -61,8 +60,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
           Seq(fakeAxeLinter(unknownAccessibilityViolation.copy(alertLevel = "WARNING")))
         passAccessibilityChecksGivenAnyHtml shouldBe checksPassed
         infoMessages                        shouldBe List(
-          """axe found 1 potential problem(s):""",
-          """{"level":"WARNING","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
+          """axe found no errors."""
         )
       }
     }
@@ -103,8 +101,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         )
         passAccessibilityChecksGivenAnyHtml shouldBe checksFailed
         infoMessages                        shouldBe List(
-          """axe found 1 potential problem(s):""",
-          """{"level":"WARNING","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}""",
+          """axe found no errors.""",
           """vnu found 1 potential problem(s):""",
           """{"level":"ERROR","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
         )
@@ -121,8 +118,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         infoMessages                        shouldBe List(
           """axe found 1 potential problem(s):""",
           """{"level":"ERROR","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}""",
-          """vnu found 1 potential problem(s):""",
-          """{"level":"WARNING","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
+          """vnu found no errors."""
         )
       }
     }
@@ -134,8 +130,7 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
         )
         passAccessibilityChecksGivenAnyHtml shouldBe checksFailed
         infoMessages                        shouldBe List(
-          """axe found 2 potential problem(s):""",
-          """{"level":"WARNING","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}""",
+          """axe found 1 potential problem(s):""",
           """{"level":"ERROR","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
         )
       }
@@ -147,9 +142,8 @@ class AccessibilityMatchersSpec extends AnyFeatureSpec with Matchers {
           Seq(fakeAxeLinter(unknownAccessibilityViolation, knownAccessibilityViolation))
         passAccessibilityChecksGivenAnyHtml shouldBe checksFailed
         infoMessages                        shouldBe List(
-          """axe found 2 potential problem(s):""",
-          """{"level":"ERROR","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}""",
-          """{"level":"WARNING","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
+          """axe found 1 potential problem(s):""",
+          """{"level":"ERROR","description":"this feature is no longer recommended","snippet":"<marquee>","helpUrl":"https://example.com","furtherInfo":""}"""
         )
       }
     }
