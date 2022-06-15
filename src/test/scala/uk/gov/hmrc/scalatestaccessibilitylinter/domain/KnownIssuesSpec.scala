@@ -104,6 +104,31 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
 
       knownIssues.filterAndUpdate(rawViolation) should matchTo(List(filteredViolation))
     }
+
+    Scenario("html containing back link with additional classes or content outside a landmark section") {
+      val rawViolation = AccessibilityViolation(
+        axe,
+        code = "deprecated",
+        severity = "serious",
+        alertLevel = "ERROR",
+        description = "Fix any of the following:\nSome page content is not contained by landmarks",
+        snippet =
+          "<a href=\"#main-content\" class=\"govuk-back-link js-enabled\" some-arbitrary-attribute=\"whatever\">Back</a>",
+        helpUrl = "https://example.com",
+        knownIssue = false,
+        furtherInformation = None
+      )
+
+      val filteredViolation = rawViolation.copy(
+        knownIssue = true,
+        furtherInformation = Some(
+          "This is caused by the back link. GDS advice says: place back links at the top of a page, before the <main> " +
+            "element to allow the user to skip all navigation links, including the back link. See PLATUI-1595."
+        )
+      )
+
+      knownIssues.filterAndUpdate(rawViolation) should matchTo(List(filteredViolation))
+    }
   }
 
   Feature("filtering returns violations unchanged") {
