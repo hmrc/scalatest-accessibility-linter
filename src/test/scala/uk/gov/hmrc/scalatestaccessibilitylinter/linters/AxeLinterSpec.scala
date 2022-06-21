@@ -40,11 +40,13 @@ class AxeLinterSpec extends AnyFeatureSpec with Matchers {
         |  "helpUrl": "https://example.com",
         |  "id": "deprecated",
         |  "impact": "serious",
+        |  "description": "concise description of the issue",
         |  "nodes": [
         |    {
         |      "failureSummary": "this feature is no longer recommended",
         |      "html": "<marquee>",
-        |      "impact": "serious"
+        |      "impact": "serious",
+        |      "target": [".cssSelector"]
         |    }
         |  ]
         |}
@@ -65,7 +67,9 @@ class AxeLinterSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       )
@@ -78,12 +82,14 @@ class AxeLinterSpec extends AnyFeatureSpec with Matchers {
         |  "id": "deprecated",
         |  "unexpected": "data",
         |  "impact": "serious",
+        |  "description": "concise description of the issue",
         |  "nodes": [
         |    {
         |      "failureSummary": "this feature is no longer recommended",
         |      "html": "<marquee>",
         |      "impact": "serious",
-        |      "moreUnexpectedData": 1
+        |      "moreUnexpectedData": 1,
+        |      "target": [".cssSelector"]
         |    }
         |  ]
         |}
@@ -104,7 +110,9 @@ class AxeLinterSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       )

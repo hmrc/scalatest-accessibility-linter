@@ -58,7 +58,9 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       }
@@ -80,7 +82,9 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       }
@@ -96,7 +100,9 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       )
@@ -131,7 +137,9 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           ),
           AccessibilityViolation(
             axe,
@@ -142,7 +150,9 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           ),
           AccessibilityViolation(
             axe,
@@ -153,7 +163,9 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       }
@@ -169,7 +181,9 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = true,
-            furtherInformation = Some("extra info")
+            furtherInformation = Some("extra info"),
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           ),
           AccessibilityViolation(
             axe,
@@ -180,7 +194,9 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           ),
           AccessibilityViolation(
             axe,
@@ -191,7 +207,9 @@ class AccessibilityLinterServiceSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = true,
-            furtherInformation = Some("extra info")
+            furtherInformation = Some("extra info"),
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       )

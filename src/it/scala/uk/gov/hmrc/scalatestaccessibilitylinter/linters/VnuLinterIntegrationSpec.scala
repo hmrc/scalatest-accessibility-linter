@@ -50,7 +50,9 @@ class VnuLinterIntegrationSpec extends flatspec.AnyFlatSpec with Matchers {
             snippet = "\n<html lang=\"en\">\n<head",
             helpUrl = "UNDEFINED",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = "N/A",
+            conciseDescription = None
           )
         )
       )

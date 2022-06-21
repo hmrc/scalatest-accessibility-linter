@@ -39,7 +39,9 @@ class VnuLinter(vnuProcess: String => String, knownIssues: KnownIssues)
       snippet = vnuAlert.extract,
       helpUrl = "UNDEFINED",
       knownIssue = false,
-      furtherInformation = None
+      furtherInformation = None,
+      cssSelector = "N/A",
+      conciseDescription = None
     )
 
   private val alertMapping: Map[String, String] = Map(

@@ -40,7 +40,9 @@ class AxeLinter(axeProcess: String => String, knownIssues: KnownIssues)
         snippet = node.snippet,
         helpUrl = axeAlert.helpUrl,
         knownIssue = false,
-        furtherInformation = None
+        furtherInformation = None,
+        cssSelector = node.target.headOption.getOrElse("N/A"),
+        conciseDescription = Some(axeAlert.description)
       )
     }
 
@@ -54,11 +56,18 @@ class AxeLinter(axeProcess: String => String, knownIssues: KnownIssues)
     "error"    -> "ERROR"
   )
 
-  private case class Node(severity: String, alertLevel: String, snippet: String, failureSummary: String)
+  private case class Node(
+    severity: String,
+    alertLevel: String,
+    snippet: String,
+    target: List[String],
+    failureSummary: String
+  )
   private implicit val nodeReads: Reads[Node] = (
     ((JsPath \ "impact").read[String] or Reads.pure("UNDEFINED")) and
       ((JsPath \ "impact").read[String] or Reads.pure("UNDEFINED")) and
       ((JsPath \ "html").read[String] or Reads.pure("UNDEFINED")) and
+      ((JsPath \ "target").read[List[String]]) and
       ((JsPath \ "failureSummary").read[String] or Reads.pure("UNDEFINED"))
   )(Node.apply _)
 

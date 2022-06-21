@@ -43,7 +43,9 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
     snippet = "<marquee>",
     helpUrl = "https://example.com",
     knownIssue = false,
-    furtherInformation = None
+    furtherInformation = None,
+    cssSelector = ".cssSelector",
+    conciseDescription = Some("concise description of the issue")
   )
 
   Feature("can load known issues successfully from config") {
@@ -90,7 +92,9 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           "<a href=\"#main-content\" class=\"govuk-skip-link\" some-arbitrary-attribute=\"whatever\">Skip to main content</a>",
         helpUrl = "https://example.com",
         knownIssue = false,
-        furtherInformation = None
+        furtherInformation = None,
+        cssSelector = ".cssSelector",
+        conciseDescription = Some("concise description of the issue")
       )
 
       val filteredViolation = rawViolation.copy(
@@ -116,7 +120,9 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           "<a href=\"#main-content\" class=\"govuk-back-link js-enabled\" some-arbitrary-attribute=\"whatever\">Back</a>",
         helpUrl = "https://example.com",
         knownIssue = false,
-        furtherInformation = None
+        furtherInformation = None,
+        cssSelector = ".cssSelector",
+        conciseDescription = Some("concise description of the issue")
       )
 
       val filteredViolation = rawViolation.copy(
@@ -170,7 +176,9 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           snippet = "<marquee>",
           helpUrl = "https://example.com",
           knownIssue = false,
-          furtherInformation = None
+          furtherInformation = None,
+          cssSelector = ".cssSelector",
+          conciseDescription = Some("concise description of the issue")
         )
       ) shouldBe List.empty
     }
@@ -203,7 +211,9 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           snippet = "<marquee>",
           helpUrl = "https://example.com",
           knownIssue = false,
-          furtherInformation = None
+          furtherInformation = None,
+          cssSelector = ".cssSelector",
+          conciseDescription = Some("concise description of the issue")
         ),
         AccessibilityViolation(
           axe,
@@ -214,7 +224,9 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           snippet = "<marquee>",
           helpUrl = "https://example.com",
           knownIssue = false,
-          furtherInformation = None
+          furtherInformation = None,
+          cssSelector = ".cssSelector",
+          conciseDescription = Some("concise description of the issue")
         ),
         AccessibilityViolation(
           axe,
@@ -225,7 +237,9 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           snippet = "<marquee>",
           helpUrl = "https://example.com",
           knownIssue = false,
-          furtherInformation = None
+          furtherInformation = None,
+          cssSelector = ".cssSelector",
+          conciseDescription = Some("concise description of the issue")
         )
       ) shouldBe List(
         AccessibilityViolation(
@@ -237,7 +251,9 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           snippet = "<marquee>",
           helpUrl = "https://example.com",
           knownIssue = false,
-          furtherInformation = None
+          furtherInformation = None,
+          cssSelector = ".cssSelector",
+          conciseDescription = Some("concise description of the issue")
         )
       )
     }
@@ -266,7 +282,9 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           snippet = "<marquee>",
           helpUrl = "https://example.com",
           knownIssue = false,
-          furtherInformation = None
+          furtherInformation = None,
+          cssSelector = ".cssSelector",
+          conciseDescription = Some("concise description of the issue")
         )
       ) shouldBe List(
         AccessibilityViolation(
@@ -278,7 +296,9 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
           snippet = "<marquee>",
           helpUrl = "https://example.com",
           knownIssue = true,
-          furtherInformation = Some("extra info")
+          furtherInformation = Some("extra info"),
+          cssSelector = ".cssSelector",
+          conciseDescription = Some("concise description of the issue")
         )
       )
     }
@@ -293,8 +313,12 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
         ActionsWhenMatched()
       )
 
-      givenShouldMatchAnyAxeIssue.matches(accessibilityViolation.copy(vnu)) shouldBe false
-      givenShouldMatchAnyAxeIssue.matches(accessibilityViolation.copy(axe)) shouldBe true
+      givenShouldMatchAnyAxeIssue.matches(
+        accessibilityViolation.copy(vnu)
+      ) shouldBe false
+      givenShouldMatchAnyAxeIssue.matches(
+        accessibilityViolation.copy(axe)
+      ) shouldBe true
     }
 
     Scenario("only one regex matches") {
@@ -306,15 +330,30 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
       )
 
       knownIssue.matches(
-        accessibilityViolation.copy(axe, description = "does not match", snippet = "does match")
+        accessibilityViolation.copy(
+          axe,
+          description = "does not match",
+          snippet = "does match",
+          conciseDescription = Some("concise description of the issue")
+        )
       ) shouldBe false
 
       knownIssue.matches(
-        accessibilityViolation.copy(axe, description = "does match", snippet = "does not match")
+        accessibilityViolation.copy(
+          axe,
+          description = "does match",
+          snippet = "does not match",
+          conciseDescription = Some("concise description of the issue")
+        )
       ) shouldBe false
 
       knownIssue.matches(
-        accessibilityViolation.copy(axe, description = "does match", snippet = "does match")
+        accessibilityViolation.copy(
+          axe,
+          description = "does match",
+          snippet = "does match",
+          conciseDescription = Some("concise description of the issue")
+        )
       ) shouldBe true
     }
   }

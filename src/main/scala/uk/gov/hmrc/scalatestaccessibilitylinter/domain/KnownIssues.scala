@@ -34,8 +34,8 @@ case class KnownIssues(knownIssues: List[KnownIssue]) {
           else
             Some(
               violation.copy(
-                knownIssue = actionsForKnownIssue.markAsKnownIssue,
                 alertLevel = actionsForKnownIssue.setAlertLevel.getOrElse(violation.alertLevel),
+                knownIssue = actionsForKnownIssue.markAsKnownIssue,
                 furtherInformation = actionsForKnownIssue.addFurtherInformation.orElse(violation.furtherInformation)
               )
             )
