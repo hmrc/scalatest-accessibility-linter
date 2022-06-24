@@ -67,7 +67,9 @@ class VnuLinterSpec extends AnyFeatureSpec with Matchers {
             snippet = "\n<html lang=\"en\">\n<head",
             helpUrl = "UNDEFINED",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = "N/A",
+            conciseDescription = None
           )
         )
       )
@@ -107,7 +109,9 @@ class VnuLinterSpec extends AnyFeatureSpec with Matchers {
             snippet = "\n<html lang=\"en\">\n<head",
             helpUrl = "UNDEFINED",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = "N/A",
+            conciseDescription = None
           )
         )
       )

@@ -24,7 +24,7 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
 
   Feature("reports no unknown errors") {
     Scenario("passed accessibility checks") {
-      PassedAccessibilityChecks(axe).hasNoUnknownErrors shouldBe true
+      PassedAccessibilityChecks(axe).hasUnknownErrors shouldBe false
     }
 
     Scenario("failed accessibility checks with known errors") {
@@ -40,10 +40,12 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = true,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
-      ).hasNoUnknownErrors shouldBe true
+      ).hasUnknownErrors shouldBe false
     }
 
     Scenario("failed accessibility checks with warnings") {
@@ -59,10 +61,12 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
-      ).hasNoUnknownErrors shouldBe true
+      ).hasUnknownErrors shouldBe false
     }
   }
 
@@ -80,10 +84,12 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
-      ).hasNoUnknownErrors shouldBe false
+      ).hasUnknownErrors shouldBe true
     }
   }
 
@@ -107,7 +113,9 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = true,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       ) shouldBe FailedAccessibilityChecks(
@@ -122,7 +130,9 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = true,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       )
@@ -141,7 +151,9 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       ) shouldBe FailedAccessibilityChecks(
@@ -156,7 +168,9 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       )
@@ -175,7 +189,9 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       ) shouldBe FailedAccessibilityChecks(
@@ -190,7 +206,9 @@ class AccessibilityReportSpec extends AnyFeatureSpec with Matchers {
             snippet = "<marquee>",
             helpUrl = "https://example.com",
             knownIssue = false,
-            furtherInformation = None
+            furtherInformation = None,
+            cssSelector = ".cssSelector",
+            conciseDescription = Some("concise description of the issue")
           )
         )
       )

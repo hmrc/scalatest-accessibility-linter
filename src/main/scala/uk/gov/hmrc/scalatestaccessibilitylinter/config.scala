@@ -20,10 +20,16 @@ import com.typesafe.config.ConfigFactory
 import uk.gov.hmrc.scalatestaccessibilitylinter.domain._
 import uk.gov.hmrc.scalatestaccessibilitylinter.linters._
 
+import scala.util.Try
+
 object config {
   private lazy val config              = ConfigFactory.parseResources(getClass, "accessibility-linter.conf")
   lazy val knownIssues: KnownIssues    = KnownIssues.fromConfigList(config.getConfigList("known-issues"))
   lazy val defaultVnuLinter: VnuLinter = VnuLinter.fromEmbeddedValidator(knownIssues)
   lazy val defaultAxeLinter: AxeLinter =
     AxeLinter.fromLocalNpmWrapper(config.getString("axe.local-npm-wrapper.working-dir"), knownIssues)
+  lazy val outputFormat: OutputFormat  = OutputFormat(
+    Try(ConfigFactory.defaultApplication().getString("scalatest-accessibility-linter.output-format"))
+      .getOrElse("verbose")
+  )
 }

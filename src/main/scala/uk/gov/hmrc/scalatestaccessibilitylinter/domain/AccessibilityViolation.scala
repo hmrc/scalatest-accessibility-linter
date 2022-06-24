@@ -25,5 +25,9 @@ case class AccessibilityViolation(
   snippet: String,
   helpUrl: String,
   knownIssue: Boolean,
-  furtherInformation: Option[String]
-)
+  furtherInformation: Option[String],
+  cssSelector: String,
+  conciseDescription: Option[String]
+) {
+  val isUnknownError: Boolean = alertLevel == "ERROR" && !knownIssue
+}

@@ -18,16 +18,16 @@ package uk.gov.hmrc.scalatestaccessibilitylinter
 
 import org.scalatest.Informing
 import org.scalatest.matchers.{MatchResult, Matcher}
-import play.api.libs.json.Json
-import uk.gov.hmrc.scalatestaccessibilitylinter.config.{defaultAxeLinter, defaultVnuLinter}
 import uk.gov.hmrc.scalatestaccessibilitylinter.domain._
 
-import scala.collection.immutable.ListMap
-
 trait AccessibilityMatchers { this: Informing =>
-  protected val accessibilityLinters: Seq[AccessibilityLinter.Service] = Seq(defaultAxeLinter, defaultVnuLinter)
+  protected val accessibilityLinters: Seq[AccessibilityLinter.Service] =
+    Seq(config.defaultAxeLinter, config.defaultVnuLinter)
 
-  class PassAccessibilityChecksMatcher(accessibilityLinters: Seq[AccessibilityLinter.Service]) extends Matcher[String] {
+  class PassAccessibilityChecksMatcher(
+    accessibilityLinters: Seq[AccessibilityLinter.Service],
+    outputFormat: OutputFormat = config.outputFormat
+  ) extends Matcher[String] {
     def apply(html: String): MatchResult = {
       val accessibilityReports = accessibilityCheck(html)
 
@@ -41,7 +41,7 @@ trait AccessibilityMatchers { this: Informing =>
     }
 
     private def testShouldPass(accessibilityReports: Seq[AccessibilityReport]): Boolean =
-      accessibilityReports.forall(_.hasNoUnknownErrors)
+      !accessibilityReports.exists(_.hasUnknownErrors)
 
     private def reportResults(accessibilityReports: Seq[AccessibilityReport]): Unit =
       accessibilityReports
@@ -49,28 +49,20 @@ trait AccessibilityMatchers { this: Informing =>
           case report @ PassedAccessibilityChecks(linter)             =>
             info(s"$linter found no problems.", Some(report))
           case report @ FailedAccessibilityChecks(linter, violations) =>
-            info(s"$linter found ${violations.size} potential problem(s):", Some(report))
-
-            violations.foreach(violation => info(jsonLine(violation)))
+            violations.filter(_.isUnknownError) match {
+              case Nil    => info(s"$linter found no errors.", Some(report))
+              case errors =>
+                info(s"$linter found ${errors.size} potential problem(s):", Some(report))
+                outputFormat(errors).foreach(info(_, Some(report)))
+            }
         }
-
-    private def jsonLine(v: AccessibilityViolation): String =
-      Json.stringify(
-        Json
-          .toJson(
-            ListMap(
-              "level"       -> (if (v.alertLevel == "ERROR" && v.knownIssue) "WARNING" else v.alertLevel),
-              "description" -> v.description,
-              "snippet"     -> v.snippet,
-              "helpUrl"     -> v.helpUrl,
-              "furtherInfo" -> v.furtherInformation.getOrElse("")
-            )
-          )
-      )
 
     private def accessibilityCheck(html: String): Seq[AccessibilityReport] =
       accessibilityLinters.map(_.check(html))
   }
 
   def passAccessibilityChecks = new PassAccessibilityChecksMatcher(accessibilityLinters)
+
+  def passAccessibilityChecks(outputFormat: OutputFormat) =
+    new PassAccessibilityChecksMatcher(accessibilityLinters, outputFormat)
 }

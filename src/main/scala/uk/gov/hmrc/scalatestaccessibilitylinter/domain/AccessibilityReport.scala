@@ -17,18 +17,17 @@
 package uk.gov.hmrc.scalatestaccessibilitylinter.domain
 
 sealed trait AccessibilityReport {
-  def hasNoUnknownErrors: Boolean
+  val hasUnknownErrors: Boolean
 }
 
 case class PassedAccessibilityChecks(linter: AccessibilityLinter) extends AccessibilityReport {
-  override def hasNoUnknownErrors: Boolean = true
+  val hasUnknownErrors: Boolean = false
 }
 
 case class FailedAccessibilityChecks(linter: AccessibilityLinter, foundViolations: List[AccessibilityViolation])
     extends AccessibilityReport {
   require(foundViolations.nonEmpty, "failed accessibility report must contain accessibility violations")
-  override def hasNoUnknownErrors: Boolean =
-    foundViolations.collect({ case v if v.alertLevel == "ERROR" => v }).forall(_.knownIssue)
+  val hasUnknownErrors: Boolean = foundViolations.exists(_.isUnknownError)
 }
 
 object AccessibilityReport {
