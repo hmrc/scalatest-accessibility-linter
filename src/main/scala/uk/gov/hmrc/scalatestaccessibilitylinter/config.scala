@@ -29,7 +29,7 @@ object config {
   lazy val defaultAxeLinter: AxeLinter =
     AxeLinter.fromLocalNpmWrapper(config.getString("axe.local-npm-wrapper.working-dir"), knownIssues)
   lazy val outputFormat: OutputFormat  = OutputFormat(
-    Try(ConfigFactory.defaultApplication().getString("scalatest-accessibility-linter.output-format"))
+    Try(ConfigFactory.defaultApplication().getString("sbt-accessibility-linter.output-format"))
       .getOrElse("verbose")
   )
 }
