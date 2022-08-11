@@ -29,20 +29,17 @@ trait TemplateRenderers {
 
   // TODO generate boilerplate for Template0..22[_, ...]
 
-  def render[Result](template: Template0[Result]): Html = {
+  def render[Result](template: Template0[Result]): Html =
     template.render().asInstanceOf[Html]
-  }
 
-  def render[A, Result](template: Template1[A, Result])
-                       (implicit a: Arbitrary[A]): Html = {
+  def render[A, Result](template: Template1[A, Result])(implicit a: Arbitrary[A]): Html = {
     val maybeHtml = for {
       av <- a.arbitrary.apply(parameters, Seed.random)
     } yield template.render(av).asInstanceOf[Html]
     maybeHtml.get
   }
 
-  def render[A, B, Result](template: Template2[A, B, Result])
-                          (implicit a: Arbitrary[A], b: Arbitrary[B]): Html = {
+  def render[A, B, Result](template: Template2[A, B, Result])(implicit a: Arbitrary[A], b: Arbitrary[B]): Html = {
     val maybeHtml = for {
       av <- a.arbitrary.apply(parameters, Seed.random)
       bv <- b.arbitrary.apply(parameters, Seed.random)
@@ -88,7 +85,14 @@ trait TemplateRenderers {
 
   def render[A, B, C, D, E, F, Result](
     template: Template6[A, B, C, D, E, F, Result]
-  )(implicit a: Arbitrary[A], b: Arbitrary[B], c: Arbitrary[C], d: Arbitrary[D], e: Arbitrary[E], f: Arbitrary[F]): Html = {
+  )(implicit
+    a: Arbitrary[A],
+    b: Arbitrary[B],
+    c: Arbitrary[C],
+    d: Arbitrary[D],
+    e: Arbitrary[E],
+    f: Arbitrary[F]
+  ): Html = {
     val maybeHtml = for {
       av <- a.arbitrary.apply(parameters, Seed.random)
       bv <- b.arbitrary.apply(parameters, Seed.random)
@@ -102,7 +106,15 @@ trait TemplateRenderers {
 
   def render[A, B, C, D, E, F, G, Result](
     template: Template7[A, B, C, D, E, F, G, Result]
-  )(implicit a: Arbitrary[A], b: Arbitrary[B], c: Arbitrary[C], d: Arbitrary[D], e: Arbitrary[E], f: Arbitrary[F], g: Arbitrary[G]): Html = {
+  )(implicit
+    a: Arbitrary[A],
+    b: Arbitrary[B],
+    c: Arbitrary[C],
+    d: Arbitrary[D],
+    e: Arbitrary[E],
+    f: Arbitrary[F],
+    g: Arbitrary[G]
+  ): Html = {
     val maybeHtml = for {
       av <- a.arbitrary.apply(parameters, Seed.random)
       bv <- b.arbitrary.apply(parameters, Seed.random)
@@ -117,8 +129,16 @@ trait TemplateRenderers {
 
   def render[A, B, C, D, E, F, G, H, Result](
     template: Template8[A, B, C, D, E, F, G, H, Result]
-  )(implicit a: Arbitrary[A], b: Arbitrary[B], c: Arbitrary[C], d: Arbitrary[D], e: Arbitrary[E], f: Arbitrary[F], g: Arbitrary[G],
-    h: Arbitrary[H]): Html = {
+  )(implicit
+    a: Arbitrary[A],
+    b: Arbitrary[B],
+    c: Arbitrary[C],
+    d: Arbitrary[D],
+    e: Arbitrary[E],
+    f: Arbitrary[F],
+    g: Arbitrary[G],
+    h: Arbitrary[H]
+  ): Html = {
     val maybeHtml = for {
       av <- a.arbitrary.apply(parameters, Seed.random)
       bv <- b.arbitrary.apply(parameters, Seed.random)
@@ -134,8 +154,17 @@ trait TemplateRenderers {
 
   def render[A, B, C, D, E, F, G, H, I, Result](
     template: Template9[A, B, C, D, E, F, G, H, I, Result]
-  )(implicit a: Arbitrary[A], b: Arbitrary[B], c: Arbitrary[C], d: Arbitrary[D], e: Arbitrary[E], f: Arbitrary[F], g: Arbitrary[G],
-    h: Arbitrary[H], i: Arbitrary[I]): Html = {
+  )(implicit
+    a: Arbitrary[A],
+    b: Arbitrary[B],
+    c: Arbitrary[C],
+    d: Arbitrary[D],
+    e: Arbitrary[E],
+    f: Arbitrary[F],
+    g: Arbitrary[G],
+    h: Arbitrary[H],
+    i: Arbitrary[I]
+  ): Html = {
     val maybeHtml = for {
       av <- a.arbitrary.apply(parameters, Seed.random)
       bv <- b.arbitrary.apply(parameters, Seed.random)
@@ -147,6 +176,210 @@ trait TemplateRenderers {
       hv <- h.arbitrary.apply(parameters, Seed.random)
       iv <- i.arbitrary.apply(parameters, Seed.random)
     } yield template.render(av, bv, cv, dv, ev, fv, gv, hv, iv).asInstanceOf[Html]
+    maybeHtml.get
+  }
+
+  def render[A, B, C, D, E, F, G, H, I, J, Result](
+    template: Template10[A, B, C, D, E, F, G, H, I, J, Result]
+  )(implicit
+    a: Arbitrary[A],
+    b: Arbitrary[B],
+    c: Arbitrary[C],
+    d: Arbitrary[D],
+    e: Arbitrary[E],
+    f: Arbitrary[F],
+    g: Arbitrary[G],
+    h: Arbitrary[H],
+    i: Arbitrary[I],
+    j: Arbitrary[J]
+  ): Html = {
+    val maybeHtml = for {
+      av <- a.arbitrary.apply(parameters, Seed.random)
+      bv <- b.arbitrary.apply(parameters, Seed.random)
+      cv <- c.arbitrary.apply(parameters, Seed.random)
+      dv <- d.arbitrary.apply(parameters, Seed.random)
+      ev <- e.arbitrary.apply(parameters, Seed.random)
+      fv <- f.arbitrary.apply(parameters, Seed.random)
+      gv <- g.arbitrary.apply(parameters, Seed.random)
+      hv <- h.arbitrary.apply(parameters, Seed.random)
+      iv <- i.arbitrary.apply(parameters, Seed.random)
+      jv <- j.arbitrary.apply(parameters, Seed.random)
+    } yield template.render(av, bv, cv, dv, ev, fv, gv, hv, iv, jv).asInstanceOf[Html]
+    maybeHtml.get
+  }
+
+  def render[A, B, C, D, E, F, G, H, I, J, K, Result](
+    template: Template11[A, B, C, D, E, F, G, H, I, J, K, Result]
+  )(implicit
+    a: Arbitrary[A],
+    b: Arbitrary[B],
+    c: Arbitrary[C],
+    d: Arbitrary[D],
+    e: Arbitrary[E],
+    f: Arbitrary[F],
+    g: Arbitrary[G],
+    h: Arbitrary[H],
+    i: Arbitrary[I],
+    j: Arbitrary[J],
+    k: Arbitrary[K]
+  ): Html = {
+    val maybeHtml = for {
+      av <- a.arbitrary.apply(parameters, Seed.random)
+      bv <- b.arbitrary.apply(parameters, Seed.random)
+      cv <- c.arbitrary.apply(parameters, Seed.random)
+      dv <- d.arbitrary.apply(parameters, Seed.random)
+      ev <- e.arbitrary.apply(parameters, Seed.random)
+      fv <- f.arbitrary.apply(parameters, Seed.random)
+      gv <- g.arbitrary.apply(parameters, Seed.random)
+      hv <- h.arbitrary.apply(parameters, Seed.random)
+      iv <- i.arbitrary.apply(parameters, Seed.random)
+      jv <- j.arbitrary.apply(parameters, Seed.random)
+      kv <- k.arbitrary.apply(parameters, Seed.random)
+    } yield template.render(av, bv, cv, dv, ev, fv, gv, hv, iv, jv, kv).asInstanceOf[Html]
+    maybeHtml.get
+  }
+
+  def render[A, B, C, D, E, F, G, H, I, J, K, L, Result](
+    template: Template12[A, B, C, D, E, F, G, H, I, J, K, L, Result]
+  )(implicit
+    a: Arbitrary[A],
+    b: Arbitrary[B],
+    c: Arbitrary[C],
+    d: Arbitrary[D],
+    e: Arbitrary[E],
+    f: Arbitrary[F],
+    g: Arbitrary[G],
+    h: Arbitrary[H],
+    i: Arbitrary[I],
+    j: Arbitrary[J],
+    k: Arbitrary[K],
+    l: Arbitrary[L]
+  ): Html = {
+    val maybeHtml = for {
+      av <- a.arbitrary.apply(parameters, Seed.random)
+      bv <- b.arbitrary.apply(parameters, Seed.random)
+      cv <- c.arbitrary.apply(parameters, Seed.random)
+      dv <- d.arbitrary.apply(parameters, Seed.random)
+      ev <- e.arbitrary.apply(parameters, Seed.random)
+      fv <- f.arbitrary.apply(parameters, Seed.random)
+      gv <- g.arbitrary.apply(parameters, Seed.random)
+      hv <- h.arbitrary.apply(parameters, Seed.random)
+      iv <- i.arbitrary.apply(parameters, Seed.random)
+      jv <- j.arbitrary.apply(parameters, Seed.random)
+      kv <- k.arbitrary.apply(parameters, Seed.random)
+      lv <- l.arbitrary.apply(parameters, Seed.random)
+    } yield template.render(av, bv, cv, dv, ev, fv, gv, hv, iv, jv, kv, lv).asInstanceOf[Html]
+    maybeHtml.get
+  }
+
+  def render[A, B, C, D, E, F, G, H, I, J, K, L, M, Result](
+    template: Template13[A, B, C, D, E, F, G, H, I, J, K, L, M, Result]
+  )(implicit
+    a: Arbitrary[A],
+    b: Arbitrary[B],
+    c: Arbitrary[C],
+    d: Arbitrary[D],
+    e: Arbitrary[E],
+    f: Arbitrary[F],
+    g: Arbitrary[G],
+    h: Arbitrary[H],
+    i: Arbitrary[I],
+    j: Arbitrary[J],
+    k: Arbitrary[K],
+    l: Arbitrary[L],
+    m: Arbitrary[M]
+  ): Html = {
+    val maybeHtml = for {
+      av <- a.arbitrary.apply(parameters, Seed.random)
+      bv <- b.arbitrary.apply(parameters, Seed.random)
+      cv <- c.arbitrary.apply(parameters, Seed.random)
+      dv <- d.arbitrary.apply(parameters, Seed.random)
+      ev <- e.arbitrary.apply(parameters, Seed.random)
+      fv <- f.arbitrary.apply(parameters, Seed.random)
+      gv <- g.arbitrary.apply(parameters, Seed.random)
+      hv <- h.arbitrary.apply(parameters, Seed.random)
+      iv <- i.arbitrary.apply(parameters, Seed.random)
+      jv <- j.arbitrary.apply(parameters, Seed.random)
+      kv <- k.arbitrary.apply(parameters, Seed.random)
+      lv <- l.arbitrary.apply(parameters, Seed.random)
+      mv <- m.arbitrary.apply(parameters, Seed.random)
+    } yield template.render(av, bv, cv, dv, ev, fv, gv, hv, iv, jv, kv, lv, mv).asInstanceOf[Html]
+    maybeHtml.get
+  }
+
+  def render[A, B, C, D, E, F, G, H, I, J, K, L, M, N, Result](
+    template: Template14[A, B, C, D, E, F, G, H, I, J, K, L, M, N, Result]
+  )(implicit
+    a: Arbitrary[A],
+    b: Arbitrary[B],
+    c: Arbitrary[C],
+    d: Arbitrary[D],
+    e: Arbitrary[E],
+    f: Arbitrary[F],
+    g: Arbitrary[G],
+    h: Arbitrary[H],
+    i: Arbitrary[I],
+    j: Arbitrary[J],
+    k: Arbitrary[K],
+    l: Arbitrary[L],
+    m: Arbitrary[M],
+    n: Arbitrary[N]
+  ): Html = {
+    val maybeHtml = for {
+      av <- a.arbitrary.apply(parameters, Seed.random)
+      bv <- b.arbitrary.apply(parameters, Seed.random)
+      cv <- c.arbitrary.apply(parameters, Seed.random)
+      dv <- d.arbitrary.apply(parameters, Seed.random)
+      ev <- e.arbitrary.apply(parameters, Seed.random)
+      fv <- f.arbitrary.apply(parameters, Seed.random)
+      gv <- g.arbitrary.apply(parameters, Seed.random)
+      hv <- h.arbitrary.apply(parameters, Seed.random)
+      iv <- i.arbitrary.apply(parameters, Seed.random)
+      jv <- j.arbitrary.apply(parameters, Seed.random)
+      kv <- k.arbitrary.apply(parameters, Seed.random)
+      lv <- l.arbitrary.apply(parameters, Seed.random)
+      mv <- m.arbitrary.apply(parameters, Seed.random)
+      nv <- n.arbitrary.apply(parameters, Seed.random)
+    } yield template.render(av, bv, cv, dv, ev, fv, gv, hv, iv, jv, kv, lv, mv, nv).asInstanceOf[Html]
+    maybeHtml.get
+  }
+
+  def render[A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, Result](
+    template: Template15[A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, Result]
+  )(implicit
+    a: Arbitrary[A],
+    b: Arbitrary[B],
+    c: Arbitrary[C],
+    d: Arbitrary[D],
+    e: Arbitrary[E],
+    f: Arbitrary[F],
+    g: Arbitrary[G],
+    h: Arbitrary[H],
+    i: Arbitrary[I],
+    j: Arbitrary[J],
+    k: Arbitrary[K],
+    l: Arbitrary[L],
+    m: Arbitrary[M],
+    n: Arbitrary[N],
+    o: Arbitrary[O]
+  ): Html = {
+    val maybeHtml = for {
+      av <- a.arbitrary.apply(parameters, Seed.random)
+      bv <- b.arbitrary.apply(parameters, Seed.random)
+      cv <- c.arbitrary.apply(parameters, Seed.random)
+      dv <- d.arbitrary.apply(parameters, Seed.random)
+      ev <- e.arbitrary.apply(parameters, Seed.random)
+      fv <- f.arbitrary.apply(parameters, Seed.random)
+      gv <- g.arbitrary.apply(parameters, Seed.random)
+      hv <- h.arbitrary.apply(parameters, Seed.random)
+      iv <- i.arbitrary.apply(parameters, Seed.random)
+      jv <- j.arbitrary.apply(parameters, Seed.random)
+      kv <- k.arbitrary.apply(parameters, Seed.random)
+      lv <- l.arbitrary.apply(parameters, Seed.random)
+      mv <- m.arbitrary.apply(parameters, Seed.random)
+      nv <- n.arbitrary.apply(parameters, Seed.random)
+      ov <- o.arbitrary.apply(parameters, Seed.random)
+    } yield template.render(av, bv, cv, dv, ev, fv, gv, hv, iv, jv, kv, lv, mv, nv, ov).asInstanceOf[Html]
     maybeHtml.get
   }
 }
