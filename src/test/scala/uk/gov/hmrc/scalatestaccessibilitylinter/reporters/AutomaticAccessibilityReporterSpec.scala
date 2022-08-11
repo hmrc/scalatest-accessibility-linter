@@ -35,13 +35,20 @@ class AutomaticAccessibilityReporterSpec extends AnyWordSpec with Matchers {
     IndexedSeq.empty[RecordableEvent]
   )
 
+  private def captureStdOut[T](block: => T): String = {
+    val stdout = new ByteArrayOutputStream()
+    Console.withOut(stdout) {
+      block
+    }
+    stdout.toString
+  }
+
   "AutomaticAccessibilityReporter" should {
 
     "output guidance on how to implement each pending test" in {
       val reporter = new AutomaticAccessibilityReporter()
 
-      val capturedStdOut = new ByteArrayOutputStream()
-      Console.withOut(capturedStdOut) {
+      val actualGuidance = captureStdOut {
         reporter(pendingEvent)
       }
 
@@ -49,19 +56,22 @@ class AutomaticAccessibilityReporterSpec extends AnyWordSpec with Matchers {
         s"""Missing wiring - add the following to your renderViewByClass function:
            |\tcase someClassName: SomeClassName => render(someClassName)
            |""".stripMargin
-      capturedStdOut.toString should be(expectedGuidance)
+
+      actualGuidance should be(expectedGuidance)
     }
 
     "output complete renderViewByClass definition for all pending tests" in {
       val reporter = new AutomaticAccessibilityReporter()
 
-      reporter(pendingEvent.copy(testName = "foo.bar.ContactHmrcPage should be accessible"))
-      reporter(pendingEvent.copy(testName = "foo.bar.ErrorPage should be accessible"))
-      reporter(pendingEvent.copy(testName = "foo.bar.FeedbackPage should be accessible"))
+      captureStdOut {
+        reporter(pendingEvent.copy(testName = "foo.bar.ContactHmrcPage should be accessible"))
+        reporter(pendingEvent.copy(testName = "foo.bar.ErrorPage should be accessible"))
+        reporter(pendingEvent.copy(testName = "foo.bar.FeedbackPage should be accessible"))
+      }
 
       val completedEvent = SuiteCompleted(new Ordinal(0), "someSuiteName", "someSuiteId", None)
-      val capturedStdOut = new ByteArrayOutputStream()
-      Console.withOut(capturedStdOut) {
+
+      val actualGuidance = captureStdOut {
         reporter(completedEvent)
       }
 
@@ -75,7 +85,7 @@ class AutomaticAccessibilityReporterSpec extends AnyWordSpec with Matchers {
            |\tcase feedbackPage: FeedbackPage => render(feedbackPage)
            |}
            |""".stripMargin
-      capturedStdOut.toString should be(expectedGuidance)
+      actualGuidance should be(expectedGuidance)
     }
   }
 }
