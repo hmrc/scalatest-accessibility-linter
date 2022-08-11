@@ -20,7 +20,7 @@ import org.mockito.ArgumentCaptor
 import org.scalacheck.Arbitrary
 import org.scalatest.matchers.MatchResult
 import play.twirl.api.Html
-import uk.gov.hmrc.scalatestaccessibilitylinter.views.html.{InternalErrorPage, Layout}
+import uk.gov.hmrc.scalatestaccessibilitylinter.views.html.{InternalErrorPage, Layout, VeryComplexPage}
 import org.mockito.Mockito._
 import org.scalatest.events.{Event, TestPending, TestSucceeded}
 import org.scalatest.{Args, Reporter}
@@ -28,6 +28,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.scalatestaccessibilitylinter.AccessibilityMatchers
+import scala.collection.JavaConverters._
 
 class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with AccessibilityMatchers with MockitoSugar {
 
@@ -45,12 +46,12 @@ class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with Acce
     }
   }
 
-  val capturedPage = ArgumentCaptor.forClass(classOf[String])
+  val viewCaptor = ArgumentCaptor.forClass(classOf[String])
 
   class ExampleSpec extends AutomaticAccessibilitySpec {
 
     override val passAccessibilityChecks: PassAccessibilityChecksMatcher = mock[PassAccessibilityChecksMatcher]
-    when(passAccessibilityChecks.apply(capturedPage.capture())).thenReturn(new MatchResult(true, "", ""))
+    when(passAccessibilityChecks.apply(viewCaptor.capture())).thenReturn(new MatchResult(true, "", ""))
 
     override def viewPackageName: String      = "uk.gov.hmrc.scalatestaccessibilitylinter.views.html"
     override def layoutClasses: Seq[Class[_]] = Seq(classOf[Layout])
@@ -58,8 +59,9 @@ class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with Acce
     val appConfig: AppConfig                     = app.injector.instanceOf[AppConfig]
     implicit val arbConfig: Arbitrary[AppConfig] = fixed(appConfig)
 
-    override def renderViewByClass: PartialFunction[Any, Html] = { case internalErrorPage: InternalErrorPage =>
-      render(internalErrorPage)
+    override def renderViewByClass: PartialFunction[Any, Html] = {
+      case internalErrorPage: InternalErrorPage => render(internalErrorPage)
+      case veryComplexPage: VeryComplexPage     => render(veryComplexPage)
     }
 
     runAccessibilityTests()
@@ -73,18 +75,31 @@ class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with Acce
 
     "test views that are wired up in renderViewByClass" in {
       val passedTests = reporter.eventsReceived collect { case event: TestSucceeded => event }
-      passedTests.length        should be(1)
-      passedTests.head.testName should be(
-        "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage should be accessible"
+      passedTests.map(_.testName) should be(
+        Seq(
+          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage should be accessible",
+          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.VeryComplexPage should be accessible"
+        )
       )
-      capturedPage.getValue     should include("deskpro.error.page.heading")
+
+      val htmlTag      = "<[^>]+>"
+      val testedViews  = viewCaptor.getAllValues.asScala.toList
+      val pageHeadings = testedViews.flatMap(
+        _.split("\\n")
+          .filter(_.contains("<h1"))
+          .map(_.replaceAll(htmlTag, "").trim)
+      )
+      pageHeadings should be(
+        Seq("Internal Error Page", "Very Complex Page")
+      )
     }
 
     "mark other views as pending tests" in {
       val pendingTests = reporter.eventsReceived collect { case event: TestPending => event }
-      pendingTests.length        should be(1)
-      pendingTests.head.testName should be(
-        "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.FeedbackConfirmationPage should be accessible"
+      pendingTests.map(_.testName) should be(
+        Seq(
+          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.FeedbackConfirmationPage should be accessible"
+        )
       )
     }
   }

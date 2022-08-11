@@ -38,7 +38,8 @@ class ViewDiscoverySpec extends AnyWordSpec with Matchers {
     "should find all classes of type BaseScalaTemplate" in new AutomaticAccessibilitySetupWithPages {
       viewNames() shouldBe ArrayBuffer(
         ViewName("uk.gov.hmrc.scalatestaccessibilitylinter.views.html.FeedbackConfirmationPage"),
-        ViewName("uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage")
+        ViewName("uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage"),
+        ViewName("uk.gov.hmrc.scalatestaccessibilitylinter.views.html.VeryComplexPage")
       )
     }
 
