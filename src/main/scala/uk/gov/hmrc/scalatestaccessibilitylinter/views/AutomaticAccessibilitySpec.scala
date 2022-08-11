@@ -24,7 +24,7 @@ import play.api.mvc.{Call, RequestHeader}
 import play.api.test.CSRFTokenHelper._
 import play.api.test.FakeRequest
 import play.twirl.api.Html
-import uk.gov.hmrc.scalatestaccessibilitylinter.AccessibilityMatchers
+import uk.gov.hmrc.scalatestaccessibilitylinter.{AccessibilityMatchers, caseCode}
 import uk.gov.hmrc.scalatestaccessibilitylinter.helpers.{ApplicationSupport, ArbDerivation, MessagesSupport}
 
 trait AutomaticAccessibilitySpec
@@ -49,17 +49,6 @@ trait AutomaticAccessibilitySpec
   implicit val arbMessages: Arbitrary[Messages]     = fixed(messages)
   implicit val arbCall: Arbitrary[Call]             = fixed(call)
 
-  trait Scope {
-
-    // if a view hasn't been 'wired up' yet, this will mark the test as pending, with wiring instructions
-    val markAsPendingWithImplementationGuidance: PartialFunction[Any, Any] = { case _ =>
-      pending
-    }
-
-    val renderOrMarkAsPending: PartialFunction[Any, Any] =
-      renderViewByClass orElse markAsPendingWithImplementationGuidance
-  }
-
   def runAccessibilityTests(): Unit =
     viewNames() foreach { viewName =>
       // get the class by name from the classloader, then get an instance of the class from the Play app
@@ -68,7 +57,17 @@ trait AutomaticAccessibilitySpec
 
       // dynamically generate scalatest for each view
       viewName.toString should {
-        "be accessible" in new Scope {
+        "be accessible" in {
+          // if a view hasn't been 'wired up' yet, this will mark the test as pending, with wiring instructions
+          val markAsPendingWithImplementationGuidance: PartialFunction[Any, Any] = { case _ =>
+            info("Missing wiring - add the following to your renderViewByClass function:")
+            info(s"${caseCode(viewName.toString)}")
+            pending
+          }
+
+          val renderOrMarkAsPending: PartialFunction[Any, Any] =
+            renderViewByClass orElse markAsPendingWithImplementationGuidance
+
           // render the view, and strip any leading whitespace
           val html: Any           = renderOrMarkAsPending(viewInstance)
           val pageContent: String = html.asInstanceOf[Html].toString.trim

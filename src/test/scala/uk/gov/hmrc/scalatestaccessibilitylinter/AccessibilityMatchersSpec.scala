@@ -195,9 +195,9 @@ trait FakeTestSuite extends Informing { this: AccessibilityMatchers =>
   def passAccessibilityChecksWithConciseOutput: MatchResult =
     passAccessibilityChecks(OutputFormat.Concise)("<html is not important for tests>")
 
-  def infoMessages: Seq[String]         = infoEvents.map(_._1).toList
-  def infoPayloads: Seq[Option[Any]]    = infoEvents.map(_._2).toList
-  private var infoEvents                = new ListBuffer[(String, Option[Any])]()
+  def infoMessages: Seq[String] = infoEvents.map(_._1).toList
+
+  private val infoEvents                = new ListBuffer[(String, Option[Any])]()
   override protected def info: Informer = new Informer {
     override def apply(message: String, payload: Option[Any])(implicit pos: Position): Unit =
       infoEvents += message -> payload

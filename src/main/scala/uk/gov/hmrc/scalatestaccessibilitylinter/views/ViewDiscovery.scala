@@ -19,7 +19,7 @@ package uk.gov.hmrc.scalatestaccessibilitylinter.views
 import org.reflections.Reflections
 import org.reflections.scanners.Scanners._
 
-import scala.jdk.CollectionConverters._
+import scala.collection.JavaConverters._
 
 trait ViewDiscovery {
 
@@ -39,6 +39,7 @@ trait ViewDiscovery {
 
     private def camelcase(s: String): String = s.toList match {
       case c :: tail => (c.toString.toLowerCase + tail.mkString).mkString
+      case Nil       => s
     }
   }
 

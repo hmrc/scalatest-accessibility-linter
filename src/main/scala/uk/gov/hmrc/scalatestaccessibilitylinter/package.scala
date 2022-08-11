@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.scalatestaccessibilitylinter.helpers
+package uk.gov.hmrc
 
-import play.api.Application
-import play.api.i18n.{Messages, MessagesApi}
-import play.api.mvc.RequestHeader
-
-trait MessagesSupport {
-  def getMessages(implicit app: Application, request: RequestHeader): Messages = {
-    val messagesApi: MessagesApi = app.injector.instanceOf[MessagesApi]
-    messagesApi.preferred(request)
+package object scalatestaccessibilitylinter {
+  def caseCode(fullClassName: String): String = {
+    val className     = fullClassName.trim.split("\\.").last
+    val classInstance = className.head.toLower + className.tail
+    s"case $classInstance: $className => render($classInstance)"
   }
 }
