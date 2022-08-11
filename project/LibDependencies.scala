@@ -28,11 +28,11 @@ object LibDependencies {
     "org.reflections"               % "reflections"              % "0.10.2",
     "org.scalacheck"               %% "scalacheck"               % "1.14.0",
     "org.scalatestplus.play"       %% "scalatestplus-play"       % "5.1.0",
-    "org.scalatestplus"            %% "scalatestplus-mockito"    % "1.0.0-M2"       % "test",
     "com.typesafe.play"            %% "play-test"                % "2.8.16",
     "com.typesafe.play"            %% "filters-helpers"          % "2.8.16",
     "org.scala-lang.modules"       %% "scala-collection-compat"  % "2.8.1",
     "org.scalatestplus"            %% "scalatestplus-scalacheck" % "3.1.0.0-RC2",
+    "org.scalatestplus"            %% "scalatestplus-mockito"    % "1.0.0-M2"       % "test",
     "com.vladsch.flexmark"          % "flexmark-all"             % "0.35.10"        % "it,test",
     "com.softwaremill.diffx"       %% "diffx-scalatest"          % "0.5.6"          % "it,test",
     "uk.gov.hmrc"                  %% "play-frontend-hmrc"       % "3.17.0-play-28" % "it,test"

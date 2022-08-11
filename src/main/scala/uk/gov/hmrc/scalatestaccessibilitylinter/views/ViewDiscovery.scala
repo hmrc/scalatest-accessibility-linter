@@ -42,8 +42,8 @@ trait ViewDiscovery {
     }
   }
 
-  def viewNames(baseType: String = "play.twirl.api.BaseScalaTemplate"): Seq[ViewName] = {
-  // may be better ways to do this... but this has a simple API for our PoC
+  def viewNames(baseType: String = "play.twirl.api.BaseScalaTemplate"): Seq[ViewName] =
+    // may be better ways to do this... but this has a simple API for our PoC
     new Reflections(viewPackageName)
       .get(SubTypes.of(baseType).asClass())
       .asScala
@@ -52,6 +52,5 @@ trait ViewDiscovery {
       .map(_.getName)
       .sorted
       .map(ViewName)
-  }
 
 }

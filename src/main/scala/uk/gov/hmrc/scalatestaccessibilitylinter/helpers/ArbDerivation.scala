@@ -34,9 +34,7 @@ trait ArbDerivation {
 
   def join[T](ctx: CaseClass[Arbitrary, T]): Arbitrary[T] = {
     val t: T = ctx.construct { param: Param[Typeclass, T] =>
-      param
-        .typeclass
-        .arbitrary
+      param.typeclass.arbitrary
         .pureApply(parameters, Seed.random())
     }
     Arbitrary(Gen.delay(t))

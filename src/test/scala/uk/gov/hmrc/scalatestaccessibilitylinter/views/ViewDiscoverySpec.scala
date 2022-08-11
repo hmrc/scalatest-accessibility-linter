@@ -22,15 +22,15 @@ import org.scalatest.wordspec.AnyWordSpec
 
 import scala.collection.mutable.ArrayBuffer
 
-class ViewDiscoverySpec extends AnyWordSpec with Matchers{
+class ViewDiscoverySpec extends AnyWordSpec with Matchers {
 
   trait AutomaticAccessibilitySetupWithPages extends AutomaticAccessibilitySpec {
-    override def viewPackageName: String = "uk.gov.hmrc.scalatestaccessibilitylinter.views.html"
+    override def viewPackageName: String      = "uk.gov.hmrc.scalatestaccessibilitylinter.views.html"
     override def layoutClasses: Seq[Class[_]] = Seq(classOf[Layout])
   }
 
   trait AutomaticAccessibilitySetupWithNoPages extends AutomaticAccessibilitySpec {
-    override def viewPackageName: String = "uk.gov.hmrc.nothing"
+    override def viewPackageName: String      = "uk.gov.hmrc.nothing"
     override def layoutClasses: Seq[Class[_]] = Seq(classOf[Layout])
   }
 
