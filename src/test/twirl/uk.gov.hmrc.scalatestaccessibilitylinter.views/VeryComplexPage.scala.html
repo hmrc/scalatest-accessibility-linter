@@ -1,0 +1,69 @@
+@*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.scalatestaccessibilitylinter.views.html.Layout
+@import uk.gov.hmrc.scalatestaccessibilitylinter.views.AppConfig
+@import uk.gov.hmrc.govukfrontend.views.html.components.GovukPanel
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.panel.Panel
+@import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+
+@this(govukPanel: GovukPanel, mainLayout: Layout)
+@* view with 22 parameters - 19 explicit + 3 implicit *@
+@(
+        backUrl: Option[String],
+        parameterA: Int,
+        parameterB: String,
+        parameterC: BigDecimal,
+        parameterD: Option[Int],
+        parameterE: Option[BigDecimal],
+        parameterF: Int,
+        parameterG: String,
+        parameterH: BigDecimal,
+        parameterI: Option[Int],
+        parameterJ: Option[BigDecimal],
+        parameterK: Int,
+        parameterL: String,
+        parameterM: BigDecimal,
+        parameterN: Option[Int],
+        parameterO: Option[BigDecimal],
+        parameterP: Int,
+        parameterQ: String,
+        parameterR: BigDecimal,
+)(implicit request: RequestHeader, messages: Messages, appConfig: AppConfig)
+
+@mainLayout(pageTitle = messages("feedback.confirmation.title"), backLink = backUrl) {
+  <h1>Very Complex Page</h1>
+  <ul>
+   <li>@{parameterA.toString}</li>
+   <li>@{parameterB}</li>
+   <li>@{parameterC.toString}</li>
+   <li>@{parameterD.toString}</li>
+   <li>@{parameterE.toString}</li>
+   <li>@{parameterF.toString}</li>
+   <li>@{parameterG}</li>
+   <li>@{parameterH.toString}</li>
+   <li>@{parameterI.toString}</li>
+   <li>@{parameterJ.toString}</li>
+   <li>@{parameterK.toString}</li>
+   <li>@{parameterL}</li>
+   <li>@{parameterM.toString}</li>
+   <li>@{parameterN.toString}</li>
+   <li>@{parameterO.toString}</li>
+   <li>@{parameterP.toString}</li>
+   <li>@{parameterQ}</li>
+   <li>@{parameterR.toString}</li>
+  </ul>
+}
