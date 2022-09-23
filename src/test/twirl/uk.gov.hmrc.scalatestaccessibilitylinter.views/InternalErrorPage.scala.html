@@ -24,7 +24,7 @@
     h1: Heading1,
     p: Paragraph
 )
-@()(implicit request: RequestHeader, messages: Messages, appConfig: AppConfig)
+@()(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 @defining(messages("deskpro.error.page.title")) { pageTitle =>
   @mainLayout(pageTitle, isWelshTranslationAvailable = false) {
     @h1(content = Text("Internal Error Page"))

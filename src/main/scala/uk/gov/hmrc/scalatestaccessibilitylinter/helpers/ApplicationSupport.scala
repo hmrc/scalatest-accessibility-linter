@@ -24,10 +24,5 @@ import play.api.inject.guice.GuiceApplicationBuilder
 trait ApplicationSupport extends GuiceOneAppPerSuite { this: TestSuite =>
   override def fakeApplication(): Application =
     new GuiceApplicationBuilder()
-      .configure(
-        "metrics.jvm"      -> false,
-        "metrics.enabled"  -> false,
-        "auditing.enabled" -> false
-      )
       .build()
 }

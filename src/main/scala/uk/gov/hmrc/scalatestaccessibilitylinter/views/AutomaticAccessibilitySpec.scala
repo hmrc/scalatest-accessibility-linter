@@ -20,9 +20,9 @@ import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.i18n.Messages
-import play.api.mvc.{Call, RequestHeader}
+import play.api.mvc.{AnyContent, Call, Request, RequestHeader}
 import play.api.test.CSRFTokenHelper._
-import play.api.test.FakeRequest
+import play.api.test.{CSRFTokenHelper, FakeRequest}
 import play.twirl.api.Html
 import uk.gov.hmrc.scalatestaccessibilitylinter.{AccessibilityMatchers, caseCode}
 import uk.gov.hmrc.scalatestaccessibilitylinter.helpers.{ApplicationSupport, ArbDerivation, MessagesSupport}
@@ -41,13 +41,13 @@ trait AutomaticAccessibilitySpec
   def renderViewByClass: PartialFunction[Any, Html] = PartialFunction.empty
 
   // these are things that need to have sane values for pages to render properly - there may be others
-  val fakeRequest: RequestHeader = FakeRequest("GET", "/contact-hmrc").withCSRFToken
-  val messages: Messages         = getMessages(app, fakeRequest)
-  val call: Call                 = Call(method = "POST", url = "/some/url")
+  val fakeRequest: Request[AnyContent] = CSRFTokenHelper.addCSRFToken(FakeRequest("GET", "/contact-hmrc"))
+  val messages: Messages               = getMessages(app, fakeRequest)
+  val call: Call                       = Call(method = "POST", url = "/some/url")
 
-  implicit val arbRequest: Arbitrary[RequestHeader] = fixed(fakeRequest)
-  implicit val arbMessages: Arbitrary[Messages]     = fixed(messages)
-  implicit val arbCall: Arbitrary[Call]             = fixed(call)
+  implicit val arbRequest: Arbitrary[Request[_]] = fixed(fakeRequest)
+  implicit val arbMessages: Arbitrary[Messages]  = fixed(messages)
+  implicit val arbCall: Arbitrary[Call]          = fixed(call)
 
   def runAccessibilityTests(): Unit =
     viewNames() foreach { viewName =>

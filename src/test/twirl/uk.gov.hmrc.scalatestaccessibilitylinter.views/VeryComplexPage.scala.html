@@ -42,7 +42,7 @@
         parameterP: Int,
         parameterQ: String,
         parameterR: BigDecimal,
-)(implicit request: RequestHeader, messages: Messages, appConfig: AppConfig)
+)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @mainLayout(pageTitle = messages("feedback.confirmation.title"), backLink = backUrl) {
   <h1>Very Complex Page</h1>
