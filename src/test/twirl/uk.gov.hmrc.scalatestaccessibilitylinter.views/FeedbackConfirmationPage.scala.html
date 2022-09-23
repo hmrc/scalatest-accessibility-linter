@@ -21,7 +21,7 @@
 @import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 
 @this(govukPanel: GovukPanel, mainLayout: Layout)
-@(backUrl: Option[String] = None)(implicit request: RequestHeader, messages: Messages, appConfig: AppConfig)
+@(backUrl: Option[String] = None)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @mainLayout(pageTitle = messages("feedback.confirmation.title"), backLink = backUrl) {
   @govukPanel(Panel(title = Text(messages("feedback.confirmation.message"))))

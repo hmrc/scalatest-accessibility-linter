@@ -19,7 +19,7 @@
 
 @this(hmrcLayout: HmrcLayout)
 
-@(pageTitle: String, isWelshTranslationAvailable: Boolean = true, backLink: Option[String] = None)(contentBlock: Html)(implicit request: RequestHeader, messages: Messages)
+@(pageTitle: String, isWelshTranslationAvailable: Boolean = true, backLink: Option[String] = None)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
 
 @hmrcLayout(
   pageTitle = Some(pageTitle),
