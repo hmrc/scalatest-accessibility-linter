@@ -20,12 +20,11 @@ import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.i18n.Messages
-import play.api.mvc.{AnyContent, Call, Request, RequestHeader}
-import play.api.test.CSRFTokenHelper._
+import play.api.mvc.{AnyContent, Call, Request}
 import play.api.test.{CSRFTokenHelper, FakeRequest}
 import play.twirl.api.Html
-import uk.gov.hmrc.scalatestaccessibilitylinter.{AccessibilityMatchers, caseCode}
 import uk.gov.hmrc.scalatestaccessibilitylinter.helpers.{ApplicationSupport, ArbDerivation, MessagesSupport}
+import uk.gov.hmrc.scalatestaccessibilitylinter.{AccessibilityMatchers, caseCode}
 
 trait AutomaticAccessibilitySpec
     extends AnyWordSpec
@@ -49,6 +48,8 @@ trait AutomaticAccessibilitySpec
   implicit val arbMessages: Arbitrary[Messages]  = fixed(messages)
   implicit val arbCall: Arbitrary[Call]          = fixed(call)
 
+  implicit val arbAsciiString: Arbitrary[String] = Arbitrary(Gen.asciiPrintableStr)
+
   def runAccessibilityTests(): Unit =
     viewNames() foreach { viewName =>
       // get the class by name from the classloader, then get an instance of the class from the Play app
@@ -69,8 +70,11 @@ trait AutomaticAccessibilitySpec
             renderViewByClass orElse markAsPendingWithImplementationGuidance
 
           // render the view, and strip any leading whitespace
-          val html: Any           = renderOrMarkAsPending(viewInstance)
-          val pageContent: String = html.asInstanceOf[Html].toString.trim
+          val html: Any   = renderOrMarkAsPending(viewInstance)
+          val pageContent = html
+            .asInstanceOf[Html]
+            .toString
+            .trim
 
           // test the page for accessibility
           pageContent should passAccessibilityChecks
