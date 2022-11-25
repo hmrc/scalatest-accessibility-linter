@@ -94,6 +94,21 @@ class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with Acce
       )
     }
 
+    "ensure unicode characters are removed from views that have been rendered" in {
+      val passedTests = reporter.eventsReceived collect { case event: TestSucceeded => event }
+      passedTests.map(_.testName) should be(
+        Seq(
+          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage should be accessible",
+          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.VeryComplexPage should be accessible"
+        )
+      )
+
+      val testedViews            = viewCaptor.getAllValues.asScala.toList
+      val unicodeCharactersRegex = "[^\\p{ASCII}]&[^\\p{IsLatin}]".r
+      val unicodeCharacters      = testedViews.map(unicodeCharactersRegex.findFirstMatchIn(_))
+      unicodeCharacters shouldEqual Seq(None, None)
+    }
+
     "mark other views as pending tests" in {
       val pendingTests = reporter.eventsReceived collect { case event: TestPending => event }
       pendingTests.map(_.testName) should be(
