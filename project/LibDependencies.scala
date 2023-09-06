@@ -33,6 +33,6 @@ object LibDependencies {
     "org.scalatestplus"            %% "scalatestplus-mockito" % "1.0.0-M2"       % "test",
     "com.vladsch.flexmark"          % "flexmark-all"          % "0.35.10"        % "it,test",
     "com.softwaremill.diffx"       %% "diffx-scalatest"       % "0.5.6"          % "it,test",
-    "uk.gov.hmrc"                  %% "play-frontend-hmrc"    % "3.17.0-play-28" % "it,test"
+    "uk.gov.hmrc"                  %% "play-frontend-hmrc"    % "7.19.0-play-28" % "it,test"
   )
 }

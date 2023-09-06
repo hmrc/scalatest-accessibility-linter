@@ -1,7 +1,7 @@
 val appName = "scalatest-accessibility-linter"
 
 val scala2_12 = "2.12.13"
-val scala2_13 = "2.13.7"
+val scala2_13 = "2.13.8"
 
 lazy val root: Project = (project in file("."))
   .configs(IntegrationTest)
