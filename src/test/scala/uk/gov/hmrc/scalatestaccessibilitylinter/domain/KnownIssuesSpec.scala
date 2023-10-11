@@ -50,7 +50,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
 
   Feature("can load known issues successfully from config") {
     Scenario("uk/gov/hmrc/scalatestaccessibilitylinter/accessibility-linter.conf") {
-      knownIssues.knownIssues.length               should be(26)
+      knownIssues.knownIssues.length               should be(28)
       KnownIssues(knownIssues.knownIssues.take(2)) should matchTo(
         KnownIssues(
           KnownIssue(
