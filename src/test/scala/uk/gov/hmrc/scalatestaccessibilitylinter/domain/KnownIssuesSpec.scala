@@ -117,7 +117,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffMatcher {
         alertLevel = "ERROR",
         description = "Fix any of the following:\nSome page content is not contained by landmarks",
         snippet =
-          "<a href=\"#main-content\" class=\"govuk-back-link js-enabled\" some-arbitrary-attribute=\"whatever\">Back</a>",
+          "<a href=\"#main-content\" class=\"govuk-back-link js-enabled\" some-arbitrary-attribute=\"whatever\">",
         helpUrl = "https://example.com",
         knownIssue = false,
         furtherInformation = None,
