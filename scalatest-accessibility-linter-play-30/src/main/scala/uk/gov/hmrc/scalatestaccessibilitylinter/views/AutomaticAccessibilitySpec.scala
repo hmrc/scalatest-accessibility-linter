@@ -21,7 +21,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.i18n.Messages
 import play.api.mvc.{AnyContent, Call, Request}
-import play.api.test.{CSRFTokenHelper, FakeRequest}
+import play.api.test.FakeRequest
 import play.twirl.api.Html
 import uk.gov.hmrc.scalatestaccessibilitylinter.helpers.{ApplicationSupport, ArbDerivation, MessagesSupport}
 import uk.gov.hmrc.scalatestaccessibilitylinter.{AccessibilityMatchers, caseCode}
@@ -40,7 +40,7 @@ trait AutomaticAccessibilitySpec
   def renderViewByClass: PartialFunction[Any, Html] = PartialFunction.empty
 
   // these are things that need to have sane values for pages to render properly - there may be others
-  val fakeRequest: Request[AnyContent] = CSRFTokenHelper.addCSRFToken(FakeRequest("GET", "/contact-hmrc"))
+  val fakeRequest: Request[AnyContent] = FakeRequest("GET", "/contact-hmrc")
   val messages: Messages               = getMessages(app, fakeRequest)
   val call: Call                       = Call(method = "POST", url = "/some/url")
 
