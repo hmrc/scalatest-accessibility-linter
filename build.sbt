@@ -12,8 +12,8 @@ ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-java8
 
 lazy val projects: Seq[ProjectReference] =
   sys.env.get("PLAY_VERSION") match {
-//    case Some("2.8") => Seq(scalatestAccessibilityLinterPlay28)
-//    case Some("2.9") => Seq(scalatestAccessibilityLinterPlay29)
+    case Some("2.8") => Seq(scalatestAccessibilityLinterPlay28)
+    case Some("2.9") => Seq(scalatestAccessibilityLinterPlay29)
     case _ => Seq(scalatestAccessibilityLinterPlay30)
   }
 
@@ -29,8 +29,7 @@ lazy val twirlTemplateImports = Seq(
   "play.api.templates.PlayMagic._",
   "uk.gov.hmrc.hmrcfrontend.views.html.components.implicits._",
   "_root_.play.twirl.api.TwirlFeatureImports._",
-  "_root_.play.twirl.api.TwirlHelperImports._",
-  "uk.gov.hmrc.scalatestaccessibilitylinter.views.html._"
+  "_root_.play.twirl.api.TwirlHelperImports._"
 )
 
 lazy val library = (project in file("."))
@@ -43,36 +42,35 @@ def copySources(module: Project) = Seq(
   Compile / scalaSource := (module / Compile / scalaSource).value,
   Compile / resourceDirectory := (module / Compile / resourceDirectory).value,
   Test / scalaSource := (module / Test / scalaSource).value,
-  Test / resourceDirectory := (module / Test / resourceDirectory).value
+  Test / resourceDirectory := (module / Test / resourceDirectory).value,
+  Test / TwirlKeys.compileTemplates / sourceDirectories += (module / baseDirectory).value / s"src/test/twirl",
 )
 
-//lazy val scalatestAccessibilityLinterPlay28 =
-//  Project("scalatest-accessibility-linter-play-28", file("scalatest-accessibility-linter-play-28"))
-//    .enablePlugins(
-//      SbtTwirl
-//    ) // previously used play sbt-plugin and enabled PlayScala and disabled PlayLayout - this was overkill to add templateImports, and added lots of unnecessary dependencies to created binary (incl. Main-Class config in Manifest)
-//    .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
-//    .settings(copySources(scalatestAccessibilityLinterPlay30))
-//    .settings(
-//      crossScalaVersions := Seq(scala2_12, scala2_13),
-//      libraryDependencies ++= LibDependencies.play28,
-//      Compile / TwirlKeys.compileTemplates / sourceDirectories ++=
-//        (Compile / unmanagedSourceDirectories).value,
-//      TwirlKeys.templateImports ++= twirlTemplateImports
-//    )
-//
-//lazy val scalatestAccessibilityLinterPlay29 =
-//  Project("scalatest-accessibility-linter-play-29", file("scalatest-accessibility-linter-play-29"))
-//    .enablePlugins(SbtTwirl)
-//    .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
-//    .settings(copySources(scalatestAccessibilityLinterPlay30))
-//    .settings(
-//      crossScalaVersions := Seq(scala2_13),
-//      libraryDependencies ++= LibDependencies.play29,
-//      Compile / TwirlKeys.compileTemplates / sourceDirectories ++=
-//        (Compile / unmanagedSourceDirectories).value,
-//      TwirlKeys.templateImports ++= twirlTemplateImports
-//    )
+lazy val scalatestAccessibilityLinterPlay28 =
+  Project("scalatest-accessibility-linter-play-28", file("scalatest-accessibility-linter-play-28"))
+    .enablePlugins(
+      SbtTwirl
+    ) // previously used play sbt-plugin and enabled PlayScala and disabled PlayLayout - this was overkill to add templateImports, and added lots of unnecessary dependencies to created binary (incl. Main-Class config in Manifest)
+    .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
+    .settings(copySources(scalatestAccessibilityLinterPlay30))
+    .settings(
+      crossScalaVersions := Seq(scala2_12, scala2_13),
+      libraryDependencies ++= LibDependencies.play28,
+      TwirlKeys.constructorAnnotations += "@javax.inject.Inject()",
+      TwirlKeys.templateImports ++= twirlTemplateImports
+    )
+
+lazy val scalatestAccessibilityLinterPlay29 =
+  Project("scalatest-accessibility-linter-play-29", file("scalatest-accessibility-linter-play-29"))
+    .enablePlugins(SbtTwirl)
+    .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
+    .settings(copySources(scalatestAccessibilityLinterPlay30))
+    .settings(
+      crossScalaVersions := Seq(scala2_13),
+      libraryDependencies ++= LibDependencies.play29,
+      TwirlKeys.constructorAnnotations += "@javax.inject.Inject()",
+      TwirlKeys.templateImports ++= twirlTemplateImports
+    )
 
 lazy val scalatestAccessibilityLinterPlay30 =
   Project("scalatest-accessibility-linter-play-30", file("scalatest-accessibility-linter-play-30"))
@@ -81,8 +79,6 @@ lazy val scalatestAccessibilityLinterPlay30 =
     .settings(
       crossScalaVersions := Seq(scala2_13),
       libraryDependencies ++= LibDependencies.play30,
-//      Compile / TwirlKeys.compileTemplates / sourceDirectories := (Compile / unmanagedResourceDirectories).value,
-//      Test / unmanagedResourceDirectories ++= Seq(baseDirectory(_ / "src/test/twirl").value),
       Test / TwirlKeys.compileTemplates / sourceDirectories += baseDirectory.value / s"src/test/twirl",
       TwirlKeys.constructorAnnotations += "@javax.inject.Inject()",
       TwirlKeys.templateImports ++= twirlTemplateImports
