@@ -22,7 +22,7 @@ import uk.gov.hmrc.scalatestaccessibilitylinter.domain._
 
 trait AccessibilityMatchers { this: Informing =>
   protected val accessibilityLinters: Seq[AccessibilityLinter.Service] =
-    Seq(config.defaultAxeLinter, config.defaultVnuLinter)
+    Seq(config.defaultAxeLinter)
 
   class PassAccessibilityChecksMatcher(
     accessibilityLinters: Seq[AccessibilityLinter.Service],
