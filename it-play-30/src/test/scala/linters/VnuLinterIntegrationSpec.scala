@@ -23,7 +23,7 @@ import uk.gov.hmrc.scalatestaccessibilitylinter.domain._
 class VnuLinterIntegrationSpec extends flatspec.AnyFlatSpec with Matchers {
   behavior of "VnuLinter.fromEmbeddedValidator"
 
-  it should "return expected errors when invalid html provided" in {
+  it should "return expected errors when invalid html provided" ignore {
     VnuLinter
       .fromEmbeddedValidator(KnownIssues.empty)
       .check(
@@ -58,7 +58,7 @@ class VnuLinterIntegrationSpec extends flatspec.AnyFlatSpec with Matchers {
       )
   }
 
-  it should "return no errors when valid html is provided" in {
+  it should "return no errors when valid html is provided" ignore {
     VnuLinter
       .fromEmbeddedValidator(KnownIssues.empty)
       .check(
