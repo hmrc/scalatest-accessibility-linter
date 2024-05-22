@@ -54,7 +54,7 @@ object KnownIssues {
   def fromConfigList(configList: java.util.List[_ <: Config]): KnownIssues =
     new KnownIssues(
       configList.asScala.toList
-        .map { knownIssue: Config =>
+        .map { (knownIssue: Config) =>
           val actions = knownIssue.getConfig("action")
 
           KnownIssue(

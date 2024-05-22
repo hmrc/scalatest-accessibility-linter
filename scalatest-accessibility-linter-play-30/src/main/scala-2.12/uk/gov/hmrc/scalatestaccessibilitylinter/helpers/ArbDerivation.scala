@@ -16,14 +16,14 @@
 
 package uk.gov.hmrc.scalatestaccessibilitylinter.helpers
 
-import magnolia1._
+import magnolia1.{Magnolia, CaseClass, Param}
 import org.scalacheck.Gen.Parameters
 import org.scalacheck.rng.Seed
 import org.scalacheck.{Arbitrary, Gen}
 
 import scala.language.experimental.macros
 
-// this is lifted from https://tech.ovoenergy.com/scalacheck-magnolia/
+// this is lifted from https://github.com/softwaremill/magnolia
 // it generates Arbitrary case class instances
 trait ArbDerivation {
   def parameters: Parameters
@@ -33,7 +33,7 @@ trait ArbDerivation {
   type Typeclass[T] = Arbitrary[T]
 
   def join[T](ctx: CaseClass[Arbitrary, T]): Arbitrary[T] = {
-    val t: T = ctx.construct { param: Param[Typeclass, T] =>
+    val t: T = ctx.construct { (param: Param[Typeclass, T]) =>
       param.typeclass.arbitrary
         .pureApply(parameters, Seed.random())
     }

@@ -52,6 +52,6 @@ trait ViewDiscovery {
       .filter(_.getConstructors.toSeq.exists(_.getParameterTypes.toSeq.exists(layoutClasses.contains(_))))
       .map(_.getName)
       .sorted
-      .map(ViewName)
+      .map(ViewName.apply)
 
 }

@@ -3,6 +3,7 @@ import uk.gov.hmrc.DefaultBuildSettings
 
 val scala2_12 = "2.12.18"
 val scala2_13 = "2.13.12"
+val scala3    = "3.3.3"
 
 ThisBuild / majorVersion := 1
 ThisBuild / isPublicArtefact := true
@@ -53,8 +54,8 @@ lazy val scalatestAccessibilityLinterPlay28 =
     .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
     .settings(copySources(scalatestAccessibilityLinterPlay30))
     .settings(
-      crossScalaVersions := Seq(scala2_12, scala2_13),
-      libraryDependencies ++= LibDependencies.play28,
+      crossScalaVersions := Seq(/* TODO confirm we can drop Scala 2.12 (and clean up usage): scala2_12, */scala2_13),
+      libraryDependencies ++= LibDependencies.play("play-28", scalaBinaryVersion.value),
       TwirlKeys.constructorAnnotations += "@javax.inject.Inject()",
       TwirlKeys.templateImports ++= templateImports
     )
@@ -66,7 +67,7 @@ lazy val scalatestAccessibilityLinterPlay29 =
     .settings(copySources(scalatestAccessibilityLinterPlay30))
     .settings(
       crossScalaVersions := Seq(scala2_13),
-      libraryDependencies ++= LibDependencies.play29,
+      libraryDependencies ++= LibDependencies.play("play-29", scalaBinaryVersion.value),
       TwirlKeys.constructorAnnotations += "@javax.inject.Inject()",
       TwirlKeys.templateImports ++= templateImports
     )
@@ -76,8 +77,8 @@ lazy val scalatestAccessibilityLinterPlay30 =
     .enablePlugins(SbtTwirl)
     .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
     .settings(
-      crossScalaVersions := Seq(scala2_13),
-      libraryDependencies ++= LibDependencies.play30,
+      crossScalaVersions := Seq(scala2_13, scala3),
+      libraryDependencies ++= LibDependencies.play("play-30", scalaBinaryVersion.value),
       Test / TwirlKeys.compileTemplates / sourceDirectories += baseDirectory.value / s"src/test/twirl",
       TwirlKeys.constructorAnnotations += "@javax.inject.Inject()",
       TwirlKeys.templateImports ++= templateImports
