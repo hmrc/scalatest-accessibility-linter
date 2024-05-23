@@ -52,12 +52,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffShouldMatche
     Scenario("uk/gov/hmrc/scalatestaccessibilitylinter/accessibility-linter.conf") {
       knownIssues.knownIssues.length               should be(28)
 
-      // TODO
-      // given instance diffForCaseClass is declared as `inline`, but was not inlined
-      // [error]    |
-      // [error]    |Try increasing `-Xmax-inlines` above 32
-
-      /*KnownIssues(knownIssues.knownIssues.take(2)) shouldMatchTo(
+      KnownIssues(knownIssues.knownIssues.take(2)) shouldMatchTo(
         KnownIssues(
           KnownIssue(
             vnu,
@@ -82,7 +77,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffShouldMatche
             )
           )
         )
-      )*/
+      )
     }
   }
 

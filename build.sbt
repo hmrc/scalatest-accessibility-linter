@@ -78,6 +78,10 @@ lazy val scalatestAccessibilityLinterPlay30 =
     .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
     .settings(
       crossScalaVersions := Seq(scala2_13, scala3),
+      scalacOptions ++= (CrossVersion.partialVersion(scalaVersion.value) match {
+                          case Some((3, _ )) => Seq("-Xmax-inlines", "64")
+                          case _             => Seq.empty
+                        }),
       libraryDependencies ++= LibDependencies.play("play-30", scalaBinaryVersion.value),
       Test / TwirlKeys.compileTemplates / sourceDirectories += baseDirectory.value / s"src/test/twirl",
       TwirlKeys.constructorAnnotations += "@javax.inject.Inject()",
