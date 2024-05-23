@@ -22,7 +22,7 @@ import org.scalatest.matchers.MatchResult
 import play.twirl.api.Html
 import uk.gov.hmrc.scalatestaccessibilitylinter.views.html.{InternalErrorPage, Layout, VeryComplexPage}
 import org.mockito.Mockito._
-import org.scalatest.events.{Event, TestPending, TestSucceeded}
+import org.scalatest.events.{Event, TestFailed, TestPending, TestSucceeded}
 import org.scalatest.{Args, Reporter}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -73,13 +73,18 @@ class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with Acce
 
     spec.run(None, Args(reporter))
 
+    def checkTestsPassed(pages: String*): Unit = {
+      val tests = reporter.eventsReceived.collect {
+        case event: TestSucceeded  => (event.testName, "Success")
+        case event: TestFailed => (event.testName, event.message + event.location.fold("")(" location: " + _))
+      }
+      tests shouldBe pages.map(p => (p + " should be accessible" -> "Success"))
+    }
+
     "test views that are wired up in renderViewByClass" in {
-      val passedTests = reporter.eventsReceived collect { case event: TestSucceeded => event }
-      passedTests.map(_.testName) should be(
-        Seq(
-          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage should be accessible",
-          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.VeryComplexPage should be accessible"
-        )
+      checkTestsPassed(
+        "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage",
+        "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.VeryComplexPage"
       )
 
       val htmlTag      = "<[^>]+>"
@@ -95,12 +100,9 @@ class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with Acce
     }
 
     "ensure unicode characters are removed from views that have been rendered" in {
-      val passedTests = reporter.eventsReceived collect { case event: TestSucceeded => event }
-      passedTests.map(_.testName) should be(
-        Seq(
-          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage should be accessible",
-          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.VeryComplexPage should be accessible"
-        )
+      checkTestsPassed(
+        "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage",
+        "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.VeryComplexPage"
       )
 
       val testedViews            = viewCaptor.getAllValues.asScala.toList
