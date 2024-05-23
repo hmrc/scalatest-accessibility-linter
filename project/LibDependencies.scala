@@ -26,7 +26,6 @@ object LibDependencies {
     "org.scalacheck"                  %% "scalacheck"                      % "1.18.0",
     "org.scalatestplus.play"          %% "scalatestplus-play"              % scalaTestPlusPlayVersion(playSuffix),
     "nu.validator"                     % "validator"                       % "20.7.2",
-    "org.scalatestplus"               %% "mockito-3-4"                     % "3.2.10.0"                     % Test,
     "com.softwaremill.diffx"          %% "diffx-scalatest-should"          % "0.9.0"                        % Test,
     "com.vladsch.flexmark"             % "flexmark-all"                    % flexmarkAllVersion(playSuffix) % Test,
     "uk.gov.hmrc"                     %% s"play-frontend-hmrc-$playSuffix" % "9.11.0-SNAPSHOT"              % Test

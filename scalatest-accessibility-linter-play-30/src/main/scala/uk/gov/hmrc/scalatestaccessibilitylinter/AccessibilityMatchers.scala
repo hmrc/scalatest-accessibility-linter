@@ -28,7 +28,7 @@ trait AccessibilityMatchers { this: Informing =>
     accessibilityLinters: Seq[AccessibilityLinter.Service],
     outputFormat: OutputFormat = config.outputFormat
   ) extends Matcher[String] {
-    def apply(html: String): MatchResult = {
+    override def apply(html: String): MatchResult = {
       val accessibilityReports = accessibilityCheck(html)
 
       reportResults(accessibilityReports)
@@ -61,7 +61,8 @@ trait AccessibilityMatchers { this: Informing =>
       accessibilityLinters.map(_.check(html))
   }
 
-  def passAccessibilityChecks = new PassAccessibilityChecksMatcher(accessibilityLinters)
+  def passAccessibilityChecks =
+    new PassAccessibilityChecksMatcher(accessibilityLinters)
 
   def passAccessibilityChecks(outputFormat: OutputFormat) =
     new PassAccessibilityChecksMatcher(accessibilityLinters, outputFormat)

@@ -51,7 +51,7 @@ trait AutomaticAccessibilitySpec
   implicit val arbAsciiString: Arbitrary[String] = Arbitrary(Gen.asciiPrintableStr)
 
   def runAccessibilityTests(): Unit =
-    viewNames() foreach { viewName =>
+    viewNames().foreach { viewName =>
       // get the class by name from the classloader, then get an instance of the class from the Play app
       val clazz        = app.classloader.loadClass(viewName.toString)
       val viewInstance = app.injector.instanceOf(clazz)
@@ -82,5 +82,6 @@ trait AutomaticAccessibilitySpec
       }
     }
 
-  protected def fixed[T](t: T): Typeclass[T] = Arbitrary(Gen.const(t))
+  protected def fixed[T](t: T): Typeclass[T] =
+    Arbitrary(Gen.const(t))
 }
