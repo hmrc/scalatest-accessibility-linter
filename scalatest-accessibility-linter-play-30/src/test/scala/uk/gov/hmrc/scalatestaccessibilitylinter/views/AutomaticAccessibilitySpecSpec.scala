@@ -18,16 +18,14 @@ package uk.gov.hmrc.scalatestaccessibilitylinter.views
 
 import org.scalacheck.Arbitrary
 import play.twirl.api.Html
-import org.mockito.Mockito._
 import org.scalatest.events.{Event, TestFailed, TestPending, TestSucceeded}
 import org.scalatest.{Args, Reporter}
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.matchers.{MatchResult, Matcher}
+import org.scalatest.matchers.MatchResult
 import org.scalatest.wordspec.AnyWordSpec
 import uk.gov.hmrc.scalatestaccessibilitylinter.AccessibilityMatchers
 import uk.gov.hmrc.scalatestaccessibilitylinter.views.html.{InternalErrorPage, Layout, VeryComplexPage}
 
-import scala.collection.JavaConverters._
 import java.util.concurrent.atomic.AtomicReference
 
 class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with AccessibilityMatchers {
@@ -56,7 +54,7 @@ class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with Acce
           capturedViews.updateAndGet(_ :+ html)
           new MatchResult(true, "", "")
         }
-    }
+      }
 
     override def viewPackageName: String      = "uk.gov.hmrc.scalatestaccessibilitylinter.views.html"
     override def layoutClasses: Seq[Class[_]] = Seq(classOf[Layout])
@@ -80,8 +78,8 @@ class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with Acce
 
     def checkTestsPassed(pages: String*): Unit = {
       val tests = reporter.eventsReceived.collect {
-        case event: TestSucceeded  => (event.testName, "Success")
-        case event: TestFailed => (event.testName, event.message + event.location.fold("")(" location: " + _))
+        case event: TestSucceeded => (event.testName, "Success")
+        case event: TestFailed    => (event.testName, event.message + event.location.fold("")(" location: " + _))
       }
       tests shouldBe pages.map(p => (p + " should be accessible" -> "Success"))
     }
@@ -93,11 +91,13 @@ class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with Acce
       )
 
       val htmlTag      = "<[^>]+>"
-      val pageHeadings = capturedViews.get().flatMap(
-        _.split("\\n")
-          .filter(_.contains("<h1"))
-          .map(_.replaceAll(htmlTag, "").trim)
-      )
+      val pageHeadings = capturedViews
+        .get()
+        .flatMap(
+          _.split("\\n")
+            .filter(_.contains("<h1"))
+            .map(_.replaceAll(htmlTag, "").trim)
+        )
       pageHeadings should be(
         Seq("Internal Error Page", "Very Complex Page")
       )

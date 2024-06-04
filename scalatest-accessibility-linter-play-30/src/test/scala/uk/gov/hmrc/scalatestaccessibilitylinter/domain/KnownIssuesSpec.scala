@@ -50,9 +50,9 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffShouldMatche
 
   Feature("can load known issues successfully from config") {
     Scenario("uk/gov/hmrc/scalatestaccessibilitylinter/accessibility-linter.conf") {
-      knownIssues.knownIssues.length               should be(28)
+      knownIssues.knownIssues.length should be(28)
 
-      KnownIssues(knownIssues.knownIssues.take(2)) shouldMatchTo(
+      KnownIssues(knownIssues.knownIssues.take(2)) shouldMatchTo (
         KnownIssues(
           KnownIssue(
             vnu,
@@ -107,7 +107,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffShouldMatche
         )
       )
 
-      knownIssues.filterAndUpdate(rawViolation) shouldMatchTo(List(filteredViolation))
+      knownIssues.filterAndUpdate(rawViolation) shouldMatchTo (List(filteredViolation))
     }
 
     Scenario("html containing back link with additional classes or content outside a landmark section") {
@@ -134,7 +134,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffShouldMatche
         )
       )
 
-      knownIssues.filterAndUpdate(rawViolation) shouldMatchTo(List(filteredViolation))
+      knownIssues.filterAndUpdate(rawViolation) shouldMatchTo (List(filteredViolation))
     }
   }
 
@@ -142,7 +142,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffShouldMatche
     Scenario("known issues is empty") {
       KnownIssues.empty.filterAndUpdate(
         accessibilityViolation
-      ) shouldMatchTo(
+      ) shouldMatchTo (
         List(accessibilityViolation)
       )
     }
@@ -150,7 +150,7 @@ class KnownIssuesSpec extends AnyFeatureSpec with Matchers with DiffShouldMatche
     Scenario("no matches to known issues") {
       knownIssues.filterAndUpdate(
         accessibilityViolation
-      ) shouldMatchTo(
+      ) shouldMatchTo (
         List(accessibilityViolation)
       )
     }

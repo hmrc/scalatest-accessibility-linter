@@ -19,7 +19,7 @@ package uk.gov.hmrc
 package object scalatestaccessibilitylinter {
   def caseCode(fullClassName: String): String = {
     val className     = fullClassName.trim.split("\\.").last
-    val classInstance = className.head.toLower + className.tail
+    val classInstance = className.head.toLower.toString + className.tail
     s"case $classInstance: $className => render($classInstance)"
   }
 }

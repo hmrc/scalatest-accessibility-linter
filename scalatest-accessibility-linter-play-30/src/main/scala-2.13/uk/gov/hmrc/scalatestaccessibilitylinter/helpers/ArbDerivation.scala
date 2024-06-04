@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.scalatestaccessibilitylinter.helpers
 
-import magnolia1.{Magnolia, CaseClass, Param}
+import magnolia1.{CaseClass, Magnolia, Param}
 import org.scalacheck.Gen.Parameters
 import org.scalacheck.rng.Seed
 import org.scalacheck.{Arbitrary, Gen}

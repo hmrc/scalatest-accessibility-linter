@@ -1,22 +1,20 @@
 import sbt.Keys._
 import uk.gov.hmrc.DefaultBuildSettings
 
-val scala2_12 = "2.12.18"
 val scala2_13 = "2.13.12"
 val scala3    = "3.3.3"
 
-ThisBuild / majorVersion := 1
+ThisBuild / majorVersion := 2
 ThisBuild / isPublicArtefact := true
 ThisBuild / scalaVersion := scala2_13
 ThisBuild / scalacOptions += "-Wconf:src=views/.*:s"
-ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml"          % VersionScheme.Always // required since we're cross building for Play 2.8 which isn't compatible with sbt 1.9
-ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-java8-compat" % VersionScheme.Always
 
+// Throughout this build there is scaffolding in place to support multiple versions of Play Framework
+// At the time of writing there is only support for Play 3.0 but this maybe extended if future versions of Play Framework
+// are released
 lazy val projects: Seq[ProjectReference] =
   sys.env.get("PLAY_VERSION") match {
-    case Some("2.8") => Seq(scalatestAccessibilityLinterPlay28)
-    case Some("2.9") => Seq(scalatestAccessibilityLinterPlay29)
-    case _           => Seq(scalatestAccessibilityLinterPlay30)
+    case _ => Seq(scalatestAccessibilityLinterPlay30)
   }
 
 lazy val templateImports: Seq[String] = Seq(
@@ -40,38 +38,6 @@ lazy val library = (project in file("."))
     projects: _*
   )
 
-def copySources(module: Project) = Seq(
-  Compile / scalaSource := (module / Compile / scalaSource).value,
-  Compile / resourceDirectory := (module / Compile / resourceDirectory).value,
-  Test / scalaSource := (module / Test / scalaSource).value,
-  Test / resourceDirectory := (module / Test / resourceDirectory).value,
-  Test / TwirlKeys.compileTemplates / sourceDirectories += (module / baseDirectory).value / s"src/test/twirl"
-)
-
-lazy val scalatestAccessibilityLinterPlay28 =
-  Project("scalatest-accessibility-linter-play-28", file("scalatest-accessibility-linter-play-28"))
-    .enablePlugins(SbtTwirl)
-    .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
-    .settings(copySources(scalatestAccessibilityLinterPlay30))
-    .settings(
-      crossScalaVersions := Seq(/* TODO confirm we can drop Scala 2.12 (and clean up usage): scala2_12, */scala2_13),
-      libraryDependencies ++= LibDependencies.play("play-28", scalaBinaryVersion.value),
-      TwirlKeys.constructorAnnotations += "@javax.inject.Inject()",
-      TwirlKeys.templateImports ++= templateImports
-    )
-
-lazy val scalatestAccessibilityLinterPlay29 =
-  Project("scalatest-accessibility-linter-play-29", file("scalatest-accessibility-linter-play-29"))
-    .enablePlugins(SbtTwirl)
-    .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
-    .settings(copySources(scalatestAccessibilityLinterPlay30))
-    .settings(
-      crossScalaVersions := Seq(scala2_13),
-      libraryDependencies ++= LibDependencies.play("play-29", scalaBinaryVersion.value),
-      TwirlKeys.constructorAnnotations += "@javax.inject.Inject()",
-      TwirlKeys.templateImports ++= templateImports
-    )
-
 lazy val scalatestAccessibilityLinterPlay30 =
   Project("scalatest-accessibility-linter-play-30", file("scalatest-accessibility-linter-play-30"))
     .enablePlugins(SbtTwirl)
@@ -79,9 +45,9 @@ lazy val scalatestAccessibilityLinterPlay30 =
     .settings(
       crossScalaVersions := Seq(scala2_13, scala3),
       scalacOptions ++= (CrossVersion.partialVersion(scalaVersion.value) match {
-                          case Some((3, _ )) => Seq("-Xmax-inlines", "64")
-                          case _             => Seq.empty
-                        }),
+        case Some((3, _)) => Seq("-Xmax-inlines", "64")
+        case _            => Seq.empty
+      }),
       libraryDependencies ++= LibDependencies.play("play-30", scalaBinaryVersion.value),
       Test / TwirlKeys.compileTemplates / sourceDirectories += baseDirectory.value / s"src/test/twirl",
       TwirlKeys.constructorAnnotations += "@javax.inject.Inject()",
@@ -92,25 +58,9 @@ lazy val it = project
   .settings(publish / skip := true)
   .aggregate(
     sys.env.get("PLAY_VERSION") match {
-      case Some("2.8") => itPlay28
-      case Some("2.9") => itPlay29
-      case _           => itPlay30
+      case _ => itPlay30
     }
   )
-
-lazy val itPlay28 = (project in file("it-play-28"))
-  .enablePlugins(SbtTwirl)
-  .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
-  .settings(copySources(itPlay30))
-  .settings(DefaultBuildSettings.itSettings())
-  .dependsOn(scalatestAccessibilityLinterPlay28 % "test->test")
-
-lazy val itPlay29 = (project in file("it-play-29"))
-  .enablePlugins(SbtTwirl)
-  .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
-  .settings(copySources(itPlay30))
-  .settings(DefaultBuildSettings.itSettings())
-  .dependsOn(scalatestAccessibilityLinterPlay29 % "test->test")
 
 lazy val itPlay30 = (project in file("it-play-30"))
   .enablePlugins(SbtTwirl)

@@ -24,30 +24,16 @@ object LibDependencies {
     magnoliaGroup(scalaBinaryVersion) %% "magnolia"                        % "1.1.2",
     "org.reflections"                  % "reflections"                     % "0.10.2",
     "org.scalacheck"                  %% "scalacheck"                      % "1.18.0",
-    "org.scalatestplus.play"          %% "scalatestplus-play"              % scalaTestPlusPlayVersion(playSuffix),
+    "org.scalatestplus.play"          %% "scalatestplus-play"              % "7.0.0",
     "nu.validator"                     % "validator"                       % "20.7.2",
-    "com.softwaremill.diffx"          %% "diffx-scalatest-should"          % "0.9.0"                        % Test,
-    "com.vladsch.flexmark"             % "flexmark-all"                    % flexmarkAllVersion(playSuffix) % Test,
-    "uk.gov.hmrc"                     %% s"play-frontend-hmrc-$playSuffix" % "9.11.0-SNAPSHOT"              % Test
+    "com.softwaremill.diffx"          %% "diffx-scalatest-should"          % "0.9.0"  % Test,
+    "com.vladsch.flexmark"             % "flexmark-all"                    % "0.64.8" % Test,
+    "uk.gov.hmrc"                     %% s"play-frontend-hmrc-$playSuffix" % "10.0.0" % Test
   )
-
-  private def scalaTestPlusPlayVersion(playSuffix: String): String =
-    playSuffix match {
-      case "play-28" => "5.1.0"
-      case "play-29" => "6.0.0"
-      case "play-30" => "7.0.0"
-    }
-
-  private def flexmarkAllVersion(playSuffix: String): String =
-    playSuffix match {
-      case "play-28" => "0.62.2"
-      case "play-29" => "0.64.8"
-      case "play-30" => "0.64.8"
-    }
 
   private def magnoliaGroup(scalaBinaryVersion: String): String =
     scalaBinaryVersion match {
-      case "2.12" | "2.13" => "com.softwaremill.magnolia1_2"
-      case _ => "com.softwaremill.magnolia1_3"
+      case "2.13" => "com.softwaremill.magnolia1_2"
+      case _      => "com.softwaremill.magnolia1_3"
     }
 }
