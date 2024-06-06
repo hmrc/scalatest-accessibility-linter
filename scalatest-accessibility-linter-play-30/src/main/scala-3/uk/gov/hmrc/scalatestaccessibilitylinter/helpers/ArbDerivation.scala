@@ -16,27 +16,39 @@
 
 package uk.gov.hmrc.scalatestaccessibilitylinter.helpers
 
-import magnolia1._
+import magnolia1.{AutoDerivation, CaseClass, Monadic, SealedTrait}
 import org.scalacheck.Gen.Parameters
 import org.scalacheck.rng.Seed
 import org.scalacheck.{Arbitrary, Gen}
 
 import scala.language.experimental.macros
 
-// this is lifted from https://tech.ovoenergy.com/scalacheck-magnolia/
+// this is lifted from https://github.com/softwaremill/magnolia
 // it generates Arbitrary case class instances
-trait ArbDerivation {
+trait ArbDerivation extends AutoDerivation[Arbitrary] {
   def parameters: Parameters
-
-  implicit def gen[T]: Arbitrary[T] = macro Magnolia.gen[T]
 
   type Typeclass[T] = Arbitrary[T]
 
-  def join[T](ctx: CaseClass[Arbitrary, T]): Arbitrary[T] = {
-    val t: T = ctx.construct { param: Param[Typeclass, T] =>
-      param.typeclass.arbitrary
-        .pureApply(parameters, Seed.random())
+  override def join[T](ctx: CaseClass[Arbitrary, T]): Arbitrary[T] =
+    Arbitrary {
+      Gen.lzy(ctx.constructMonadic(param => param.typeclass.arbitrary))
     }
-    Arbitrary(Gen.delay(t))
-  }
+
+  override def split[T](ctx: SealedTrait[Arbitrary, T]): Arbitrary[T] =
+    Arbitrary {
+      Gen.oneOf(ctx.subtypes.map(_.typeclass.arbitrary)).flatMap(identity)
+    }
+
+  implicit private val monadicGen: Monadic[Gen] =
+    new Monadic[Gen] {
+      override def point[A](value: A): Gen[A] =
+        Gen.const(value)
+
+      override def flatMap[A, B](from: Gen[A])(fn: A => Gen[B]): Gen[B] =
+        from.flatMap(fn)
+
+      override def map[A, B](from: Gen[A])(fn: A => B): Gen[B] =
+        from.map(fn)
+    }
 }

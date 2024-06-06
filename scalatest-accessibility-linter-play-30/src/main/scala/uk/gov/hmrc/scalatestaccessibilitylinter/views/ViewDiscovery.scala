@@ -19,7 +19,7 @@ package uk.gov.hmrc.scalatestaccessibilitylinter.views
 import org.reflections.Reflections
 import org.reflections.scanners.Scanners._
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 trait ViewDiscovery {
 
@@ -52,6 +52,6 @@ trait ViewDiscovery {
       .filter(_.getConstructors.toSeq.exists(_.getParameterTypes.toSeq.exists(layoutClasses.contains(_))))
       .map(_.getName)
       .sorted
-      .map(ViewName)
+      .map(ViewName.apply)
 
 }

@@ -18,35 +18,22 @@ import sbt._
 
 object LibDependencies {
 
-  val play28 = play("play-28")
-  val play29 = play("play-29")
-  val play30 = play("play-30")
-
-  private def play(playSuffix: String) = Seq(
-    "org.scalatest"                %% "scalatest"                       % "3.2.17",
-    "com.beachape"                 %% "enumeratum"                      % "1.7.0",
-    "com.softwaremill.magnolia1_2" %% "magnolia"                        % "1.1.2",
-    "org.reflections"               % "reflections"                     % "0.10.2",
-    "org.scalacheck"               %% "scalacheck"                      % "1.14.0",
-    "org.scalatestplus.play"       %% "scalatestplus-play"              % scalaTestPlusPlayVersion(playSuffix),
-    "nu.validator"                  % "validator"                       % "20.7.2",
-    "org.scalatestplus"            %% "scalatestplus-mockito"           % "1.0.0-M2"                     % "test",
-    "com.softwaremill.diffx"       %% "diffx-scalatest"                 % "0.5.6"                        % "test",
-    "com.vladsch.flexmark"          % "flexmark-all"                    % flexmarkAllVersion(playSuffix) % "test",
-    "uk.gov.hmrc"                  %% s"play-frontend-hmrc-$playSuffix" % "8.3.0"                        % "test"
+  def play(playSuffix: String, scalaBinaryVersion: String) = Seq(
+    "org.scalatest"                   %% "scalatest"                       % "3.2.17",
+    "com.beachape"                    %% "enumeratum"                      % "1.7.3",
+    magnoliaGroup(scalaBinaryVersion) %% "magnolia"                        % "1.1.2",
+    "org.reflections"                  % "reflections"                     % "0.10.2",
+    "org.scalacheck"                  %% "scalacheck"                      % "1.18.0",
+    "org.scalatestplus.play"          %% "scalatestplus-play"              % "7.0.0",
+    "nu.validator"                     % "validator"                       % "20.7.2",
+    "com.softwaremill.diffx"          %% "diffx-scalatest-should"          % "0.9.0"  % Test,
+    "com.vladsch.flexmark"             % "flexmark-all"                    % "0.64.8" % Test,
+    "uk.gov.hmrc"                     %% s"play-frontend-hmrc-$playSuffix" % "10.0.0" % Test
   )
 
-  private def scalaTestPlusPlayVersion(playSuffix: String): String =
-    playSuffix match {
-      case "play-28" => "5.1.0"
-      case "play-29" => "6.0.0"
-      case "play-30" => "7.0.0"
-    }
-
-  private def flexmarkAllVersion(playSuffix: String): String =
-    playSuffix match {
-      case "play-28" => "0.62.2"
-      case "play-29" => "0.64.8"
-      case "play-30" => "0.64.8"
+  private def magnoliaGroup(scalaBinaryVersion: String): String =
+    scalaBinaryVersion match {
+      case "2.13" => "com.softwaremill.magnolia1_2"
+      case _      => "com.softwaremill.magnolia1_3"
     }
 }

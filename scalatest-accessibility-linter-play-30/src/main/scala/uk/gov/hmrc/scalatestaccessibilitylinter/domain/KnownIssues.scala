@@ -18,7 +18,7 @@ package uk.gov.hmrc.scalatestaccessibilitylinter.domain
 
 import com.typesafe.config.{Config, ConfigException}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.matching.Regex
 
 case class KnownIssues(knownIssues: List[KnownIssue]) {
@@ -54,7 +54,7 @@ object KnownIssues {
   def fromConfigList(configList: java.util.List[_ <: Config]): KnownIssues =
     new KnownIssues(
       configList.asScala.toList
-        .map { knownIssue: Config =>
+        .map { (knownIssue: Config) =>
           val actions = knownIssue.getConfig("action")
 
           KnownIssue(

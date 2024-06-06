@@ -16,21 +16,19 @@
 
 package uk.gov.hmrc.scalatestaccessibilitylinter.views
 
-import org.mockito.ArgumentCaptor
 import org.scalacheck.Arbitrary
-import org.scalatest.matchers.MatchResult
 import play.twirl.api.Html
-import uk.gov.hmrc.scalatestaccessibilitylinter.views.html.{InternalErrorPage, Layout, VeryComplexPage}
-import org.mockito.Mockito._
-import org.scalatest.events.{Event, TestPending, TestSucceeded}
+import org.scalatest.events.{Event, TestFailed, TestPending, TestSucceeded}
 import org.scalatest.{Args, Reporter}
 import org.scalatest.matchers.should.Matchers
+import org.scalatest.matchers.MatchResult
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.mockito.MockitoSugar
 import uk.gov.hmrc.scalatestaccessibilitylinter.AccessibilityMatchers
-import scala.collection.JavaConverters._
+import uk.gov.hmrc.scalatestaccessibilitylinter.views.html.{InternalErrorPage, Layout, VeryComplexPage}
 
-class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with AccessibilityMatchers with MockitoSugar {
+import java.util.concurrent.atomic.AtomicReference
+
+class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with AccessibilityMatchers {
 
   // stolen from org.scalatest.SharedHelpers
   class EventRecordingReporter extends Reporter {
@@ -46,12 +44,17 @@ class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with Acce
     }
   }
 
-  val viewCaptor = ArgumentCaptor.forClass(classOf[String])
+  private val capturedViews = new AtomicReference(Seq.empty[String])
 
   class ExampleSpec extends AutomaticAccessibilitySpec {
 
-    override val passAccessibilityChecks: PassAccessibilityChecksMatcher = mock[PassAccessibilityChecksMatcher]
-    when(passAccessibilityChecks.apply(viewCaptor.capture())).thenReturn(new MatchResult(true, "", ""))
+    override val passAccessibilityChecks: PassAccessibilityChecksMatcher =
+      new PassAccessibilityChecksMatcher(accessibilityLinters = Seq.empty) {
+        override def apply(html: String): MatchResult = {
+          capturedViews.updateAndGet(_ :+ html)
+          new MatchResult(true, "", "")
+        }
+      }
 
     override def viewPackageName: String      = "uk.gov.hmrc.scalatestaccessibilitylinter.views.html"
     override def layoutClasses: Seq[Class[_]] = Seq(classOf[Layout])
@@ -73,39 +76,41 @@ class AutomaticAccessibilitySpecSpec extends AnyWordSpec with Matchers with Acce
 
     spec.run(None, Args(reporter))
 
+    def checkTestsPassed(pages: String*): Unit = {
+      val tests = reporter.eventsReceived.collect {
+        case event: TestSucceeded => (event.testName, "Success")
+        case event: TestFailed    => (event.testName, event.message + event.location.fold("")(" location: " + _))
+      }
+      tests shouldBe pages.map(p => (p + " should be accessible" -> "Success"))
+    }
+
     "test views that are wired up in renderViewByClass" in {
-      val passedTests = reporter.eventsReceived collect { case event: TestSucceeded => event }
-      passedTests.map(_.testName) should be(
-        Seq(
-          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage should be accessible",
-          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.VeryComplexPage should be accessible"
-        )
+      checkTestsPassed(
+        "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage",
+        "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.VeryComplexPage"
       )
 
       val htmlTag      = "<[^>]+>"
-      val testedViews  = viewCaptor.getAllValues.asScala.toList
-      val pageHeadings = testedViews.flatMap(
-        _.split("\\n")
-          .filter(_.contains("<h1"))
-          .map(_.replaceAll(htmlTag, "").trim)
-      )
+      val pageHeadings = capturedViews
+        .get()
+        .flatMap(
+          _.split("\\n")
+            .filter(_.contains("<h1"))
+            .map(_.replaceAll(htmlTag, "").trim)
+        )
       pageHeadings should be(
         Seq("Internal Error Page", "Very Complex Page")
       )
     }
 
     "ensure unicode characters are removed from views that have been rendered" in {
-      val passedTests = reporter.eventsReceived collect { case event: TestSucceeded => event }
-      passedTests.map(_.testName) should be(
-        Seq(
-          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage should be accessible",
-          "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.VeryComplexPage should be accessible"
-        )
+      checkTestsPassed(
+        "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.InternalErrorPage",
+        "uk.gov.hmrc.scalatestaccessibilitylinter.views.html.VeryComplexPage"
       )
 
-      val testedViews            = viewCaptor.getAllValues.asScala.toList
       val unicodeCharactersRegex = "[^\\p{ASCII}]&[^\\p{IsLatin}]".r
-      val unicodeCharacters      = testedViews.map(unicodeCharactersRegex.findFirstMatchIn(_))
+      val unicodeCharacters      = capturedViews.get().map(unicodeCharactersRegex.findFirstMatchIn(_))
       unicodeCharacters shouldEqual Seq(None, None)
     }
 

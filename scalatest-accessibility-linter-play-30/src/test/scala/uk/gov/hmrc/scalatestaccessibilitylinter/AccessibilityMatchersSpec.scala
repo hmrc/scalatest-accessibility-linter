@@ -243,9 +243,12 @@ trait FakeTestSuite extends Informing { this: AccessibilityMatchers =>
   def fakeLinter(
     linter: AccessibilityLinter,
     violations: List[AccessibilityViolation]
-  ): AccessibilityLinter.Service =
-    new AccessibilityLinter.Service(linter, KnownIssues.empty) {
-      override protected def findViolations(html: String): List[AccessibilityViolation] = violations.map(_.copy(linter))
+  ): AccessibilityLinter.Service = {
+    val pLinter = linter
+    new AccessibilityLinter.Service(pLinter, KnownIssues.empty) {
+      override protected def findViolations(html: String): List[AccessibilityViolation] =
+        violations.map(_.copy(linter = pLinter))
     }
+  }
 
 }
